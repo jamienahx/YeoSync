@@ -1,4 +1,5 @@
 import './TaskBoard.css';
+import { Link } from 'react-router-dom';
 
 
 //get the filtered tasks from app and render them 
@@ -16,6 +17,7 @@ interface TaskBoardProps {
 
 const TaskBoard = (props: TaskBoardProps)=> {
     return(
+<Link to ={`/members/${props.member}`} className="task-board-link">
 <div className = "task-board">
     <h3>{props.member}</h3>
     <ul className="task-list">
@@ -30,6 +32,7 @@ const TaskBoard = (props: TaskBoardProps)=> {
         })}
     </ul>
 </div>
+</Link>
 );
 };
 
