@@ -11,11 +11,18 @@ import {
 
 import {useState} from 'react';
 import TaskBoard from '../TaskBoard/TaskBoard';
+import { useEffect } from 'react';
 
 //register the bar elements before use
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
+interface Task {
+  member: string;
+  category: string;
+  short_description: string;
+  date: string;
+}
 
 const Dashboard = () => {
 
@@ -103,46 +110,55 @@ const handlePrevMonth = () => {
 }
 
 
-//hardcoded data for testing
-const hardcodedBoards = [
-  {
-    member: "Jisoo",
-    tasks: [
-      { category: "Performance", short_description: "Award show performance", date: "2025-08-01" },
-      { category: "Video Shoot", short_description: "Behind-the-scenes video", date: "2025-08-02" }
-    ]
-  },
-  {
-    member: "Jennie",
-    tasks: [
-      { category: "Rehearsal", short_description: "Dance video filming", date: "2025-08-03" },
-      { category: "Rehearsal", short_description: "Award show performance", date: "2025-09-03" }
-    ]
-  },
-  {
-    member: "Rose",
-    tasks: [
-      { category: "Performance", short_description: "Live Concert in Goyang", date: "2025-08-04" }
-    ]
-  },
-  {
-    member: "Lisa",
-    tasks: [
-      { category: "Meeting", short_description: "Meeting with Na PD", date: "2025-08-04" }
-    ]
-  }
-];
+//tasks related code here
 
-const filteredBoards = hardcodedBoards.map(board =>({
-    ...board,
-    tasks: board.tasks.filter(task => {
-        const taskDate = new Date(task.date);
-        return (
-            taskDate.getMonth() === currentMonth &&
-            taskDate.getFullYear() ===currentYear
-        );
-    })
-}));
+//initialize tasks to be an empty array
+const [tasks, setTasks] = useState<Task[]>([]);
+
+const fetchTasks = async() => {
+    try{
+
+        const response = await fetch('http://localhost:3000/dashboard/');
+        if (!response.ok) {
+            throw new Error('Failed to fetch tasks');
+        }
+        const data = await response.json();
+        setTasks(data);
+    }
+    catch(err){
+        console.error(err);
+    }
+};
+
+useEffect(()=> {
+    fetchTasks();
+}, []);
+
+//create an object to group tasks by member eg member: Jennie short_desc = Rehearsal
+const groupedBoards: {[member: string]: Task[]}={};
+
+tasks.forEach(task => {
+    //for every task, filter by the data, convert it into a date object
+    const taskDate = new Date(task.date);
+
+    //if the tasks of falls in the currently selected month and year
+    if(
+        taskDate.getMonth()===currentMonth &&
+        taskDate.getFullYear()===currentYear
+    ) {
+        if(!groupedBoards[task.member]){ //create a new array for the member if an array for the member hasnt existed yet. this will be skipped if the member alreadyhas an array
+            groupedBoards[task.member]=[]; 
+        }
+        groupedBoards[task.member].push(task); //push the task into the array grouped board becomes {member:Jennie , short desc: rehersal}
+    }
+});
+
+//Object.entries convert the groupedBoards into an array of key-value pairs ["jennie",[tasks array]]
+//.map --> map each member into a new object with keys member & task -> ["jennie", [member:"jennie", short_desc: blablabla]]
+const filteredBoards = Object.entries(groupedBoards).map(([member,tasks])=> ({
+    member,
+    tasks
+}));  
 
 const noTasksThisMonth = filteredBoards.every(board =>board.tasks.length ===0)
 
