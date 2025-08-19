@@ -2,7 +2,7 @@ const taskDaos = require("../daos/task");
 
 
 const getDashboardTasks = async() => {
-return await taskDaos.find()
+return await taskDaos.find({}, 'member category short_description date')
 }
 
 const getTasksByMember = async(memberName) => {

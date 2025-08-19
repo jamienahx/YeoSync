@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 
 import {useState} from 'react';
-
+import TaskBoard from '../TaskBoard/TaskBoard';
 
 //register the bar elements before use
 
@@ -66,6 +66,86 @@ const chartData = sentiment
 : null;  //set to null if the chart data object is falsy/dont exist. no rendering.
 
 
+
+//date states where date().getMonth retruns you the current month and date().getFullYear shows the current year
+ const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+ const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+ //swiping
+
+ const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+//swiping towards next month
+//if we have reached december, set the month to january, increment the year by 1
+//otherwise, set the month to the next month
+const handleNextMonth = () => {
+
+    if (currentMonth === 11) {
+        setCurrentMonth(0);
+        setCurrentYear(prev => prev+1);
+    } else {
+        setCurrentMonth(prev => prev+1)
+    }
+}
+
+//swiping towards prev month
+//if we are in Jan, when it is swiped, decrement the month
+//decrement the year
+
+const handlePrevMonth = () => {
+
+    if (currentMonth === 0) {
+        setCurrentMonth(11);
+        setCurrentYear(prev => prev-1);
+    } else {
+        setCurrentMonth(prev => prev-1)
+    }
+}
+
+
+//hardcoded data for testing
+const hardcodedBoards = [
+  {
+    member: "Jisoo",
+    tasks: [
+      { category: "Performance", short_description: "Award show performance", date: "2025-08-01" },
+      { category: "Video Shoot", short_description: "Behind-the-scenes video", date: "2025-08-02" }
+    ]
+  },
+  {
+    member: "Jennie",
+    tasks: [
+      { category: "Rehearsal", short_description: "Dance video filming", date: "2025-08-03" },
+      { category: "Rehearsal", short_description: "Award show performance", date: "2025-09-03" }
+    ]
+  },
+  {
+    member: "Rose",
+    tasks: [
+      { category: "Performance", short_description: "Live Concert in Goyang", date: "2025-08-04" }
+    ]
+  },
+  {
+    member: "Lisa",
+    tasks: [
+      { category: "Meeting", short_description: "Meeting with Na PD", date: "2025-08-04" }
+    ]
+  }
+];
+
+const filteredBoards = hardcodedBoards.map(board =>({
+    ...board,
+    tasks: board.tasks.filter(task => {
+        const taskDate = new Date(task.date);
+        return (
+            taskDate.getMonth() === currentMonth &&
+            taskDate.getFullYear() ===currentYear
+        );
+    })
+}));
+
+const noTasksThisMonth = filteredBoards.every(board =>board.tasks.length ===0)
+
 return (
 <div>
     <button onClick={fetchSentiment} disabled={loading} style ={{marginTop: '20px'}}>
@@ -80,8 +160,33 @@ return (
           {chartData && <Bar data = {chartData}/>}
         </div>
       )}
+
+{/*Month navigation */}
+    <div style = {{marginTop: '20px'}}>
+
+        <button onClick={handlePrevMonth}>Previous Month</button>
+        <span style = {{ margin: '0 10px'}}>{monthNames[currentMonth]}{currentYear}</span>
+        <button onClick = {handleNextMonth}>Next Month</button>
+</div>
+      {noTasksThisMonth && (
+        <p style={{color: 'red', fontWeight:'bold', marginTop: '20px'}}>
+            No assignments for the month
+        </p>
+      )}
+      {/* within filtere boards, filter further into users*/}
+    <div style={{display:'flex', gap: '20px', flexWrap: 'wrap'}}>
+        {filteredBoards.map((board, index)=>(
+        <TaskBoard key = {index} member={board.member} tasks = {board.tasks}/>
+      ))}
+
+    </div>
+
+      
       </div>
 );
+
+
+
 }
 
 export default Dashboard;
