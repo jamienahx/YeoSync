@@ -192,7 +192,7 @@ return (
       {/* within filtere boards, filter further into users*/}
     <div style={{display:'flex', gap: '20px', flexWrap: 'wrap'}}>
         {filteredBoards.map((board, index)=>(
-        <TaskBoard key = {index} member={board.member} tasks = {board.tasks}/>
+        <TaskBoard key = {index} member={board.member} tasks = {board.tasks}/> //passed member and tasks into the taskboard component
       ))}
 
     </div>

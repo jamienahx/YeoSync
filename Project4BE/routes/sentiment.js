@@ -6,7 +6,7 @@ const path = require('path');
 router.get('/', (req, res) => {
   const scriptPath = path.join(__dirname, '../sentiment2.py');
 
-  const pythonProcess = spawn('python3', [scriptPath]);
+  const pythonProcess = spawn('/Users/jamie/Project4/Project4BE/venv/bin/python', [scriptPath]);;
 
   let output = '';
   let errorOutput = '';
