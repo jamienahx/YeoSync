@@ -19,6 +19,8 @@ const MemberPage= () => {
     const memberName = params.memberName;
 
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [searchTermCategory, setSearchTermCategory] = useState('');
+    const [searchTermDesc, setSearchTermDesc] = useState('');
    
 
     const fetchMemberTasks = async() => {
@@ -41,16 +43,34 @@ const MemberPage= () => {
         }
     }, [memberName]);
 
+const filteredTasks = tasks.filter((task)=> 
+    task.category.toLowerCase().includes(searchTermCategory.toLowerCase()) &&
+    task.long_description?.toLowerCase().includes(searchTermDesc.toLowerCase())
+);
+
 
     return (
 <div style = {{padding: '20px'}}>
 
     <h2> Schedule for {memberName}</h2>
+    <input type="text"
+    placeholder="Search by category"
+    className="search-bar"
+    value={searchTermCategory}
+    onChange={(e)=>setSearchTermCategory(e.target.value)}
+    />
+     <input type="text"
+    placeholder="Search by long description"
+    className="search-bar"
+    value={searchTermDesc}
+    onChange={(e)=>setSearchTermDesc(e.target.value)}
+    />
+
     {tasks.length===0 ? (
         <p>no tasks found for {memberName}</p>
     ):(
         <ul className="task-list">
-            {tasks.map((task) => (
+            {filteredTasks.map((task) => (
                 <li key = {task.task_id} className="task-card">
 
                     <strong>{task.category}: {task.short_description}<br /></strong>

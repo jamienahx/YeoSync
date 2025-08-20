@@ -4,6 +4,8 @@ const taskController = require("../controllers/task")
 
 router.get('/', taskController.fetchDashboardTasks);
 router.get('/:member',taskController.fetchTaskByMember)
+router.post('/',taskController.createTask);
+router.delete('/:taskId', taskController.deleteTask);
 
 
 
