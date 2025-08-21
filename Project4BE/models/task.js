@@ -13,8 +13,8 @@ const createTask = async(taskData) => {
     return await taskDaos.create(taskData);
 }
 
-const deleteTaskById = async(taskId) => {
-    return await taskDaos.deleteOne({task_id:taskId});
+const deleteTaskById = async(_id) => {
+    return await taskDaos.deleteOne({_id});
 }
 
 const updateTaskById = async (_id, updateData) => {
