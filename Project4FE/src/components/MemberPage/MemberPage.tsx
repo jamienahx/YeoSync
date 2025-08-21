@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import './MemberPage.css';
+import SwapModal from '../SwapModal/SwapModal';
 
 interface Task {
     member: string;
@@ -9,7 +10,8 @@ interface Task {
     short_description: string;
     long_description: string;
     date: string;
-    task_id: string; 
+    _id: string;
+     
 }
 
 
@@ -21,7 +23,17 @@ const MemberPage= () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [searchTermCategory, setSearchTermCategory] = useState('');
     const [searchTermDesc, setSearchTermDesc] = useState('');
-   
+
+    //states for Modal
+    const [showModal, setShowModal] = useState(false);
+    const [taskToSwap, setTaskToSwap] = useState<Task | null>(null);
+    const [selectedMember, setSelectedMember]= useState('');
+
+    //need to extract the names out of the task array
+
+
+    const [allMembers, setAllMembers] = useState<string[]>([]);
+        const otherMembers = allMembers.filter(m => m !== memberName);
 
     const fetchMemberTasks = async() => {
     try{
@@ -39,7 +51,7 @@ const MemberPage= () => {
 };
     useEffect(()=> {
         if(memberName) {
-            fetchMemberTasks();
+          fetchMemberTasks();
         }
     }, [memberName]);
 
@@ -47,6 +59,62 @@ const filteredTasks = tasks.filter((task)=>
     task.category.toLowerCase().includes(searchTermCategory.toLowerCase()) &&
     task.long_description?.toLowerCase().includes(searchTermDesc.toLowerCase())
 );
+
+
+//get all members:
+const fetchAllMembers = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/dashboard');
+    if (!response.ok) {
+      throw new Error('Failed to fetch all tasks');
+    }
+    const data: Task[] = await response.json();
+    const members = Array.from(new Set(data.map(task => task.member)));
+    setAllMembers(members);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//Post to another member, then delete from current member
+const handleConfirmSwap = async () => {
+    if(!taskToSwap || ! selectedMember) return;
+    const newTask ={
+        ...taskToSwap,
+        member: selectedMember
+    }
+    try{
+
+        await fetch ('http://localhost:3000/dashboard', {
+            method:'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newTask)
+        });
+
+        await fetch(`http://localhost:3000/dashboard/${taskToSwap._id}`, {
+            method: 'DELETE'
+        });
+//refresh the task list after the swap has been done
+        await fetchMemberTasks();
+
+        //reset the modal state
+    setShowModal(false);
+    setSelectedMember('');
+    setTaskToSwap(null);
+
+    } catch (error) {
+        console.error("Swap failed:", error)
+    }
+}
+
+const handleOpenModal = (task: Task) => {
+  setTaskToSwap(task);
+  setShowModal(true);
+};
+
+useEffect(()=> {
+    fetchAllMembers();
+}, [])
 
 
     return (
@@ -71,7 +139,7 @@ const filteredTasks = tasks.filter((task)=>
     ):(
         <ul className="task-list">
             {filteredTasks.map((task) => (
-                <li key = {task.task_id} className="task-card">
+                <li key = {task._id} className="task-card">
 
                     <strong>{task.category}: {task.short_description}<br /></strong>
                     <small>{task.date}</small>
@@ -81,13 +149,26 @@ const filteredTasks = tasks.filter((task)=>
                         <em>{task.long_description}</em>
                         </>
                     )}
-
+                    {/*when user clicks on this, the modal will be opened. The selected task is saved to the state  and will be swapped */}
+                     {/*now inside the state variable, taskToSwap is now having this task*/}
+                <button onClick={() => handleOpenModal(task)}>Swap</button> 
                 </li>
+              
+
             ))}
         </ul>
     )}
-
+{/*pass all these props into modal.tsx. so essentially we will control modal from this page. modal is like a dummy*/}
+    <SwapModal 
+  show={showModal}
+  onClose={() => setShowModal(false)}
+  members={otherMembers}
+  onConfirm={handleConfirmSwap}
+  selectedMember={selectedMember}
+  setSelectedMember={setSelectedMember}
+/>
 </div>
+
 );
 
 };
