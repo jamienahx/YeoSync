@@ -1,0 +1,58 @@
+.priority-container {
+  min-height: 100vh;
+  position: relative;
+  font-family: sans-serif;
+  padding: 1rem;
+}
+
+/* pinned items layout */
+.pinned .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.pinned .item {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* drawer */
+.slider {
+  position: fixed;
+  top: 0;
+  right: -240px; 
+  width: 260px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 10;
+}
+.slider.open {
+  right: 0; /* slide into view */
+}
+.slider-content {
+  padding: 1rem;
+}
+
+/* post-it tab */
+.tab {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: #facc15; /* yellow */
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px 0 0 6px;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.2);
+  z-index: 20;
+}
+.tab.shifted {
+  right: 260px; /* moves with the drawer */
+}

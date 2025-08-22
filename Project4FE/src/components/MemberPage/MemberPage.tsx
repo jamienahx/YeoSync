@@ -80,15 +80,16 @@ const fetchAllMembers = async () => {
 const handleConfirmSwap = async () => {
     if(!taskToSwap || ! selectedMember) return;
     const newTask ={
-        ...taskToSwap,
-        member: selectedMember
+        ...taskToSwap, //everything of the current task
+        member: selectedMember //the member that was selected
     }
+    // console.log("Posting new task to backend:", newTask);
     try{
 
         await fetch ('http://localhost:3000/dashboard', {
             method:'post',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(newTask)
+            body: JSON.stringify(newTask) 
         });
 
         await fetch(`http://localhost:3000/dashboard/${taskToSwap._id}`, {
@@ -115,6 +116,25 @@ const handleOpenModal = (task: Task) => {
 useEffect(()=> {
     fetchAllMembers();
 }, [])
+
+
+//delete function
+
+const handleDeleteTask = async (_id: string) => {
+    try {
+        await fetch(`http://localhost:3000/dashboard/${_id}`, {
+
+        method: "DELETE",
+        });
+
+        await fetchMemberTasks();
+
+    } catch(err){
+        console.error("Failed to delete task:", err);
+
+    }
+
+}
 
 
     return (
@@ -149,6 +169,8 @@ useEffect(()=> {
                         <em>{task.long_description}</em>
                         </>
                     )}
+
+                    <button onClick={() => handleDeleteTask(task._id)}>Delete</button> 
                     {/*when user clicks on this, the modal will be opened. The selected task is saved to the state  and will be swapped */}
                      {/*now inside the state variable, taskToSwap is now having this task*/}
                 <button onClick={() => handleOpenModal(task)}>Swap</button> 
