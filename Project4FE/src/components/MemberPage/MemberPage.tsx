@@ -4,6 +4,8 @@ import {useState} from 'react';
 import './MemberPage.css';
 import SwapModal from '../SwapModal/SwapModal';
 import DeleteModal from '../DeleteModal/DeleteModal';
+import TaskPieChart from "../TaskPieChart/TaskPieChart";
+
 
 interface Task {
     member: string;
@@ -174,7 +176,12 @@ const openDeleteModal =(id: string) => {
     {tasks.length===0 ? (
         <p>no tasks found for {memberName}</p>
     ):(
-        <ul className="task-list">
+        
+        <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
+    {/* Left side: Task List */}
+    <ul className="task-list" style={{ flex: 2 }}>
+        
+        
             {filteredTasks.map((task) => (
                 <li key = {task._id} className="task-card">
 
@@ -192,10 +199,14 @@ const openDeleteModal =(id: string) => {
                      {/*now inside the state variable, taskToSwap is now having this task*/}
                 <button onClick={() => handleOpenModal(task)}>Swap</button> 
                 </li>
-              
 
             ))}
         </ul>
+    {/* Right side: Pie Chart */}
+    <div style={{ flex: 1 }}>
+      <TaskPieChart tasks={tasks} />
+    </div>
+</div>
     )}
 {/*pass all these props into modal.tsx. so essentially we will control modal from this page. modal is like a dummy*/}
     <SwapModal 
@@ -211,7 +222,7 @@ const openDeleteModal =(id: string) => {
 
 <DeleteModal
 show={showDeleteModal}
-onClose={() => setShowModal(false)}
+onClose={() => setShowDeleteModal(false)}
 onConfirm={()=>taskToDelete && handleDeleteTask(taskToDelete)}
 />
 

@@ -1,0 +1,21 @@
+.piechart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 400px; /* adjust as needed */
+  margin-top: 20px;
+}
+
+.piechart-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recharts-wrapper {
+  border: 1px solid #ddd; /* optional: add border around chart */
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+}
