@@ -15,15 +15,15 @@ setSelectedMember: (member: string)=> void;  //used for updating the selected me
 
 const SwapModal = (props: SwapModalProps) => {
     //console.log("SwapModal props:", props);
-    const show = props.show;
-  const onClose = props.onClose;
-  const members = props.members;
-  const onConfirm = props.onConfirm;
-  const selectedMember = props.selectedMember;
-  const setSelectedMember = props.setSelectedMember;
+    //const show = props.show;
+  //const onClose = props.onClose;
+  //const members = props.members;
+  //const onConfirm = props.onConfirm;
+  //const selectedMember = props.selectedMember;
+  //const setSelectedMember = props.setSelectedMember;
 
 
-if (!show) {
+if (!props.show) {
     return null;
 
     //console.log("Members:", members);
@@ -37,11 +37,11 @@ return(
         <label>Select a member:</label>
     {/*dropdown menu */}
         <select
-            value={selectedMember}
-            onChange={(e)=> setSelectedMember(e.target.value)}  //onChange will call selectedMember--> state in Memberpage will be updated since setselectedmember is a prop
+            value={props.selectedMember}
+            onChange={(e)=> props.setSelectedMember(e.target.value)}  //onChange will call selectedMember--> state in Memberpage will be updated since setselectedmember is a prop
             >
                 <option value ="">Select</option>
-                {members.map((member,index)=> ( //loop over every member, then create an option for each member and sets it as value. Use key and value since the list is static and order doesnt change.
+                {props.members.map((member,index)=> ( //loop over every member, then create an option for each member and sets it as value. Use key and value since the list is static and order doesnt change.
                     <option key={index} value={member}>
                         {member}
                     </option>
@@ -50,12 +50,12 @@ return(
             </select>
             <div className="modal-buttons">
                 <button 
-                    onClick={onConfirm}
-                    disabled={selectedMember ===''} //triggers handleConfirmSwap in Memberpage
+                    onClick={props.onConfirm}
+                    disabled={props.selectedMember ===''} //triggers handleConfirmSwap in Memberpage
                         >
                             Confirm
                         </button>
-                        <button onClick={onClose}>Cancel</button>
+                        <button onClick={props.onClose}>Cancel</button>
 
             </div>
 

@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {useState} from 'react';
 import './MemberPage.css';
 import SwapModal from '../SwapModal/SwapModal';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 interface Task {
     member: string;
@@ -28,6 +29,12 @@ const MemberPage= () => {
     const [showModal, setShowModal] = useState(false);
     const [taskToSwap, setTaskToSwap] = useState<Task | null>(null);
     const [selectedMember, setSelectedMember]= useState('');
+
+    //states for deleteModal
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
+
+
 
     //need to extract the names out of the task array
 
@@ -55,6 +62,7 @@ const MemberPage= () => {
         }
     }, [memberName]);
 
+    //whatever user typed into the 2 search bars
 const filteredTasks = tasks.filter((task)=> 
     task.category.toLowerCase().includes(searchTermCategory.toLowerCase()) &&
     task.long_description?.toLowerCase().includes(searchTermDesc.toLowerCase())
@@ -121,6 +129,7 @@ useEffect(()=> {
 //delete function
 
 const handleDeleteTask = async (_id: string) => {
+
     try {
         await fetch(`http://localhost:3000/dashboard/${_id}`, {
 
@@ -128,6 +137,8 @@ const handleDeleteTask = async (_id: string) => {
         });
 
         await fetchMemberTasks();
+        setTaskToDelete(null);
+        setShowDeleteModal(false)
 
     } catch(err){
         console.error("Failed to delete task:", err);
@@ -135,6 +146,12 @@ const handleDeleteTask = async (_id: string) => {
     }
 
 }
+
+const openDeleteModal =(id: string) => {
+    setTaskToDelete(id);
+    setShowDeleteModal(true);
+}
+
 
 
     return (
@@ -169,8 +186,8 @@ const handleDeleteTask = async (_id: string) => {
                         <em>{task.long_description}</em>
                         </>
                     )}
-
-                    <button onClick={() => handleDeleteTask(task._id)}>Delete</button> 
+                    {/*when user clicks on this, the modal will be opened. inside openDeletemodal, setTasksToDelete(id) will store the task to delete and setShowDeleteModal = true */}
+                    <button onClick={() => openDeleteModal(task._id)}>Delete</button> 
                     {/*when user clicks on this, the modal will be opened. The selected task is saved to the state  and will be swapped */}
                      {/*now inside the state variable, taskToSwap is now having this task*/}
                 <button onClick={() => handleOpenModal(task)}>Swap</button> 
@@ -189,6 +206,15 @@ const handleDeleteTask = async (_id: string) => {
   selectedMember={selectedMember}
   setSelectedMember={setSelectedMember}
 />
+
+{/*pass all these props into deletemodal.tsx. show-> render modal onclose ->set ShowDeleteModal to false , onConfirm -> calls handleDeleteTask*/}
+
+<DeleteModal
+show={showDeleteModal}
+onClose={() => setShowModal(false)}
+onConfirm={()=>taskToDelete && handleDeleteTask(taskToDelete)}
+/>
+
 </div>
 
 );
