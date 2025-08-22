@@ -71,16 +71,16 @@ const filteredTasks = tasks.filter((task)=>
 );
 
 
-//get all members:
+//get all members. need this in order to do filtering for the swap function
+//already edited BE to be select distinct members from task
 const fetchAllMembers = async () => {
   try {
-    const response = await fetch('http://localhost:3000/dashboard');
+    const response = await fetch('http://localhost:3000/dashboard/members');
     if (!response.ok) {
       throw new Error('Failed to fetch all tasks');
     }
-    const data: Task[] = await response.json();
-    const members = Array.from(new Set(data.map(task => task.member)));
-    setAllMembers(members);
+    const members: string[] = await response.json();
+    setAllMembers(members);  //the state setAllMembers is the members that are fetched from the query
   } catch (error) {
     console.error(error);
   }
@@ -202,6 +202,7 @@ const openDeleteModal =(id: string) => {
 
             ))}
         </ul>
+
     {/* Right side: Pie Chart */}
     <div style={{ flex: 1 }}>
       <TaskPieChart tasks={tasks} />

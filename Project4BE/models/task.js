@@ -21,11 +21,17 @@ const updateTaskById = async (_id, updateData) => {
     return await taskDaos.findByIdAndUpdate(_id, updateData, {new: true});
 }
 
+//select distinct members from tasks
+const  getDistinctMembers = async () => {
+    return await taskDaos.distinct("member");
+}
+
 
 module.exports = {
     getDashboardTasks,
     getTasksByMember,
     createTask,
     deleteTaskById,
-    updateTaskById
+    updateTaskById,
+    getDistinctMembers
 }
