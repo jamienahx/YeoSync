@@ -168,10 +168,13 @@ const noTasksThisMonth = filteredBoards.every(board =>board.tasks.length ===0)
 
 
 return (
-<div>
+<div className="dashboard-container">
+    <div className="dashboard-content">
+      <div className="button-container">
     <button onClick={fetchSentiment} disabled={loading} style ={{marginTop: '20px'}}>
         {loading? 'Loading...':'GetSentiment'}
       </button>
+      </div>
         {error && <p style={{color: 'red'}}>{error}</p>} 
 
 {/*if sentiment is truthym render the div and everything else. otherwise dont render */}
@@ -210,10 +213,11 @@ return (
         currentYear = {currentYear}
         monthNames = {monthNames}
         />
-   </div>
+    </div>
 
-      
-      </div>
+    </div>
+    </div>
+
 );
 
 

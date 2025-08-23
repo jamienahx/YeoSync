@@ -1,22 +1,26 @@
-.dashboard-container {
-  padding: 20px;
-}
-
-.btn-fetch-sentiment {
+/* Center the sentiment button container */
+.button-container {
+  display: flex;
+  justify-content: center;  /* horizontal centering */
   margin-top: 20px;
 }
-
 .error-text {
   color: red;
 }
 
 .sentiment-chart-container {
+ display: flex;
+  flex-direction: column; /* stack title and chart */
+  align-items: center;    /* center horizontally */
   margin-top: 20px;
-  max-width: 500px;
 }
 
 .month-navigation {
-  margin-top: 20px;
+ display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* spacing between buttons/text */
+  margin: 20px 0;
 }
 
 .month-navigation span {
@@ -31,12 +35,30 @@
 
 .task-board-container {
   display: flex;
+  flex-wrap: wrap;       /* allow wrapping if not enough space */
+  justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  box-sizing: border-box;
 }
 
 .member-bar-chart-container {
-  margin-top: 20px;
-  max-width: 500px;
+ display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
+
+body {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  margin: 0;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+

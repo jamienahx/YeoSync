@@ -3,9 +3,12 @@
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 4px;
-  width: 300px;
+  
+  flex: 1 1 250px;   /* grow, shrink, minimum width 250px */
+  max-width: 300px; /* optional cap so it doesn’t stretch too much */
+  min-width: 200px; /* prevent getting too tiny */
+  box-sizing: border-box;
 }
-
 .task-board h3 {
   margin-bottom: 10px;
 }
