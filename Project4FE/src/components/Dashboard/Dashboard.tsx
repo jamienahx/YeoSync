@@ -12,6 +12,8 @@ import {
 import {useState} from 'react';
 import TaskBoard from '../TaskBoard/TaskBoard';
 import { useEffect } from 'react';
+import  MemberBarChart from '../MemberBarChart/MemberBarChart';
+import './Dashboard.css';
 
 //register the bar elements before use
 
@@ -149,7 +151,7 @@ tasks.forEach(task => {
         if(!groupedBoards[task.member]){ //create a new array for the member if an array for the member hasnt existed yet. this will be skipped if the member alreadyhas an array
             groupedBoards[task.member]=[]; 
         }
-        groupedBoards[task.member].push(task); //push the task into the array grouped board becomes {member:Jennie , short desc: rehersal}
+        groupedBoards[task.member].push(task); //push the task into the array grouped board becomes {member:Jennie , short desc: rehersal, date:}
     }
 });
 
@@ -162,6 +164,9 @@ const filteredBoards = Object.entries(groupedBoards).map(([member,tasks])=> ({
 
 const noTasksThisMonth = filteredBoards.every(board =>board.tasks.length ===0)
 
+
+
+
 return (
 <div>
     <button onClick={fetchSentiment} disabled={loading} style ={{marginTop: '20px'}}>
@@ -171,31 +176,41 @@ return (
 
 {/*if sentiment is truthym render the div and everything else. otherwise dont render */}
     {sentiment && (
-        <div style={{marginTop: '20px', maxWidth: '500px'}}>
+        <div className="sentiment-chart-container">
           <h3>Sentiment Analysis Results:</h3>
           {chartData && <Bar data = {chartData}/>}
         </div>
       )}
 
 {/*Month navigation */}
-    <div style = {{marginTop: '20px'}}>
+    <div className="month-navigation">
 
         <button onClick={handlePrevMonth}>Previous Month</button>
-        <span style = {{ margin: '0 10px'}}>{monthNames[currentMonth]}{currentYear}</span>
+        <span>{monthNames[currentMonth]}{currentYear}</span>
         <button onClick = {handleNextMonth}>Next Month</button>
 </div>
       {noTasksThisMonth && (
-        <p style={{color: 'red', fontWeight:'bold', marginTop: '20px'}}>
+        <p className="no-tasks-text">
             No assignments for the month
         </p>
       )}
       {/* within filtere boards, filter further into users*/}
-    <div style={{display:'flex', gap: '20px', flexWrap: 'wrap'}}>
+    <div className="task-board-container">
         {filteredBoards.map((board, index)=>(
         <TaskBoard key = {index} member={board.member} tasks = {board.tasks}/> //passed member and tasks into the taskboard component
       ))}
 
     </div>
+
+   <div className="member-bar-chart-container">
+{/*props to be passed to the memberbarchart component*/}
+      <MemberBarChart
+        filteredBoards = {filteredBoards}
+        currentMonth = {currentMonth}
+        currentYear = {currentYear}
+        monthNames = {monthNames}
+        />
+   </div>
 
       
       </div>
