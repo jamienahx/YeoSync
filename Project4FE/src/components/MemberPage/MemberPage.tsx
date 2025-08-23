@@ -37,6 +37,33 @@ const MemberPage= () => {
     const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
 
+    //states for month
+     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+//////Codes for month handling 
+
+//handle swiping here
+
+ const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+const handleNextMonth=()=>{
+    if( currentMonth===11){
+        setCurrentMonth(0);
+        setCurrentYear(prev=>prev+1);
+    } else {
+        setCurrentMonth(prev=>prev+1)
+    }
+}
+
+const handlePrevMonth=()=>{
+    if( currentMonth===0){
+        setCurrentMonth(11);
+        setCurrentYear(prev=>prev-1);
+    } else {
+        setCurrentMonth(prev=>prev-1)
+    }
+}
 
     //need to extract the names out of the task array
 
@@ -65,10 +92,16 @@ const MemberPage= () => {
     }, [memberName]);
 
     //whatever user typed into the 2 search bars
-const filteredTasks = tasks.filter((task)=> 
+    //now need to add the dates because now the dates affect what is rendered.
+const filteredTasks = tasks.filter(task=> {
+    const taskDate = new Date(task.date);
+  return (
+    taskDate.getMonth() === currentMonth &&
+    taskDate.getFullYear() === currentYear &&
     task.category.toLowerCase().includes(searchTermCategory.toLowerCase()) &&
     task.long_description?.toLowerCase().includes(searchTermDesc.toLowerCase())
 );
+});
 
 
 //get all members. need this in order to do filtering for the swap function
@@ -156,6 +189,9 @@ const openDeleteModal =(id: string) => {
 
 
 
+
+
+
     return (
 <div style = {{padding: '20px'}}>
 
@@ -173,7 +209,16 @@ const openDeleteModal =(id: string) => {
     onChange={(e)=>setSearchTermDesc(e.target.value)}
     />
 
-    {tasks.length===0 ? (
+{/*Month navigation */}
+<div className="month-navigation">
+
+        <button onClick={handlePrevMonth}>Previous Month</button>
+        <span>{monthNames[currentMonth]}{currentYear}</span>
+        <button onClick = {handleNextMonth}>Next Month</button>
+</div>
+     
+
+    {filteredTasks.length===0 ? (
         <p>no tasks found for {memberName}</p>
     ):(
         
@@ -204,8 +249,9 @@ const openDeleteModal =(id: string) => {
         </ul>
 
     {/* Right side: Pie Chart */}
+     {/* update to reflect filtered tasks */}
     <div style={{ flex: 1 }}>
-      <TaskPieChart tasks={tasks} />
+      <TaskPieChart tasks={filteredTasks} /> 
     </div>
 </div>
     )}
