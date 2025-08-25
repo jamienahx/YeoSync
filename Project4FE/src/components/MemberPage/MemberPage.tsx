@@ -6,6 +6,7 @@ import SwapModal from '../SwapModal/SwapModal';
 import DeleteModal from '../DeleteModal/DeleteModal';
 import TaskPieChart from "../TaskPieChart/TaskPieChart";
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
+import EditTaskModal from '../EditTaskModal/EditTaskModal'
 
 
 interface Task {
@@ -44,6 +45,11 @@ const MemberPage= () => {
 
      //state for addtaskmodal
      const [showAddModal, setShowAddModal] = useState(false);
+
+
+     //state for editing
+     const [showEditModal, setShowEditModal] = useState(false);
+     const [taskBeingEdited, setTaskBeingEdited] = useState<Task | null>(null);
 
 //////Codes for month handling 
 
@@ -221,6 +227,50 @@ const handleAddTask = async (taskData:{  //takes in the following data which is 
 };
 
 
+////edit task 
+
+
+//when user clicks on edit, the task is passed into handleEditClick
+//stores the task in state
+//then open the modal
+const handleEditClick = (task:Task) => {
+    setTaskBeingEdited(task);
+    setShowEditModal(true);
+}
+
+//send to BE 
+
+const handleConfirmEdit = async (updatedFields: {
+category:string;
+short_description: string;
+long_description: string;
+date: string;
+}) => {
+    if(!taskBeingEdited) return;
+
+
+try{
+    await fetch(`http://localhost:3000/dashboard/${taskBeingEdited._id}`, {
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(updatedFields),
+    });
+
+    await fetchMemberTasks();
+    setShowEditModal(false);
+    setTaskBeingEdited(null);
+
+}
+catch(err) { 
+    console.error("Failed to update task:", err);
+
+}
+
+}
+
+
+
+
 
 
     return (
@@ -269,6 +319,7 @@ const handleAddTask = async (taskData:{  //takes in the following data which is 
                         <em>{task.long_description}</em>
                         </>
                     )}
+                    <button onClick={() => handleEditClick(task)}>Edit</button>
                     {/*when user clicks on this, the modal will be opened. inside openDeletemodal, setTasksToDelete(id) will store the task to delete and setShowDeleteModal = true */}
                     <button onClick={() => openDeleteModal(task._id)}>Delete</button> 
                     {/*when user clicks on this, the modal will be opened. The selected task is saved to the state  and will be swapped */}
@@ -315,6 +366,14 @@ onConfirm={()=>taskToDelete && handleDeleteTask(taskToDelete)}
     onConfirm = {handleAddTask}
     memberName={memberName || ""}
     />
+
+
+    <EditTaskModal
+  show={showEditModal}
+  onClose={() => setShowEditModal(false)}
+  onConfirm={handleConfirmEdit}
+  task={taskBeingEdited}
+/>
 
 </div>
 
