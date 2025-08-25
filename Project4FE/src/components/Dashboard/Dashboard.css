@@ -35,7 +35,7 @@
 
 .task-board-container {
   display: flex;
-  flex-wrap: wrap;       /* allow wrapping if not enough space */
+
   justify-content: center;
   gap: 20px;
   box-sizing: border-box;

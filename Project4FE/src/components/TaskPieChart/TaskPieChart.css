@@ -2,9 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 400px; /* adjust as needed */
-  margin-top: 20px;
+  max-width: 400px;   /* prevent over-expansion */
+  height: 300px;      /* smaller fixed height */
+  margin: 20px auto;  /* center with margin */
 }
 
 .piechart-title {

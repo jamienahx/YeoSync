@@ -13,7 +13,10 @@
   padding: 16px;
   margin-bottom: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
+
 
 .task-card strong {
   font-size: 1.1em;
@@ -33,5 +36,13 @@
 .month-navigation {
   margin-top: 20px;
 }
+
+.add-task-container {
+
+  margin: 10px 0;
+  text-align: right;
+}
+
+
 
 

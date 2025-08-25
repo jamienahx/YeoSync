@@ -5,6 +5,7 @@ import './MemberPage.css';
 import SwapModal from '../SwapModal/SwapModal';
 import DeleteModal from '../DeleteModal/DeleteModal';
 import TaskPieChart from "../TaskPieChart/TaskPieChart";
+import AddTaskModal from '../AddTaskModal/AddTaskModal';
 
 
 interface Task {
@@ -40,6 +41,9 @@ const MemberPage= () => {
     //states for month
      const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
      const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+     //state for addtaskmodal
+     const [showAddModal, setShowAddModal] = useState(false);
 
 //////Codes for month handling 
 
@@ -188,6 +192,33 @@ const openDeleteModal =(id: string) => {
 }
 
 
+//add task
+
+const handleAddTask = async (taskData:{  //takes in the following data which is whatever the user filled in
+    category:string;
+    short_description:string;
+    long_description: string;
+    date: string;
+}) => { //create a new task object below (adding on to whatever was passed in): -copy all the item from taskdata + create a random 6 number digit for taskid, then posts the new task into the DB
+    const newTask = {
+        ...taskData,
+        member: memberName,
+        task_id:Math.floor(100000+Math.random()*900000).toString(),
+    };
+
+    try {
+        await fetch("http://localhost:3000/dashboard", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(newTask),
+        })
+
+        await fetchMemberTasks();  //refetch fetchMemberTasks to the new list is fetched immediately
+        setShowAddModal(false); //hide modal
+    } catch(err) {
+        console.error("Failed to add task:", err);
+    }
+};
 
 
 
@@ -217,7 +248,7 @@ const openDeleteModal =(id: string) => {
         <button onClick = {handleNextMonth}>Next Month</button>
 </div>
      
-
+    
     {filteredTasks.length===0 ? (
         <p>no tasks found for {memberName}</p>
     ):(
@@ -249,8 +280,13 @@ const openDeleteModal =(id: string) => {
         </ul>
 
     {/* Right side: Pie Chart */}
+
+    
      {/* update to reflect filtered tasks */}
     <div style={{ flex: 1 }}>
+    {/* Add Button on top of the pie chart */}
+    <button onClick={() => setShowAddModal(true)}>+ Add Task</button>
+   
       <TaskPieChart tasks={filteredTasks} /> 
     </div>
 </div>
@@ -272,6 +308,13 @@ show={showDeleteModal}
 onClose={() => setShowDeleteModal(false)}
 onConfirm={()=>taskToDelete && handleDeleteTask(taskToDelete)}
 />
+
+<AddTaskModal
+    show={showAddModal}
+    onClose={()=>setShowAddModal(false)}
+    onConfirm = {handleAddTask}
+    memberName={memberName || ""}
+    />
 
 </div>
 
