@@ -11,7 +11,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var sentimentRouter = require('./routes/sentiment');
 var dashboard = require('./routes/dashboard');
-var sentimentMemberRouter = require('./routes/sentimentMember')
+var sentimentMemberRouter = require('./routes/sentimentMember');
+var noticeRouter = require('./routes/notice')
 
 var app = express();
 
@@ -28,9 +29,10 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/sentiment', sentimentRouter)
-app.use('/dashboard', dashboard)
-app.use('/sentiment/member', sentimentMemberRouter)
+app.use('/sentiment', sentimentRouter);
+app.use('/dashboard', dashboard);
+app.use('/sentiment/member', sentimentMemberRouter);
+app.use('/notice', noticeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

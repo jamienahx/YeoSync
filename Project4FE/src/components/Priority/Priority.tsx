@@ -21,7 +21,35 @@ const Priority = () => {
       <div className={`slider ${isOpen ? "open" : ""}`}>
         <div className="slider-content">
           <h2>Draft a Notice</h2>
-          <p>slider content here</p>
+         {/* Category Dropdown */}
+          <label>
+            Type:
+            <select>
+              <option value="performance">Performance</option>
+              <option value="leave">Leave / Absence</option>
+              <option value="release">Release</option>
+              <option value="ticketing">Ticketing</option>
+              <option value="event">Event</option>
+            </select>
+          </label>
+
+          {/* Member Dropdown */}
+          <label>
+            Member:
+            <select defaultValue="all">
+              <option value="all">All</option>
+              <option value="Jisoo">Jisoo</option>
+              <option value="Jennie">Jennie</option>
+              <option value="Rose">Rosé</option>
+              <option value="Lisa">Lisa</option>
+              
+            </select>
+          </label>
+          {/* Text input */}
+          <label>
+            Notice:
+            <textarea placeholder="Draft notices will be generated here" />
+          </label>
         </div>
       </div>
 

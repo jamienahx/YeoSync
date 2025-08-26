@@ -28,6 +28,8 @@ interface Task {
     long_description: string;
     date: string;
     _id: string;
+    pinned: boolean;
+    task_id: string;
      
 }
 
@@ -317,9 +319,6 @@ const chartData = sentiment ? {
 
 
 
-
-
-
     return (
 <div style = {{padding: '20px'}}>
 
@@ -359,6 +358,7 @@ const chartData = sentiment ? {
                 <li key = {task._id} className="task-card">
 
                     <strong>{task.category}: {task.short_description}<br /></strong>
+                    
                     <small>{task.date}</small>
                     {task.long_description && (
                         <>

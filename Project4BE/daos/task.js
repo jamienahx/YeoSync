@@ -23,7 +23,8 @@ const taskSchema = new mongoose.Schema({
   short_description: { type: String, required: true},
   long_description: String,
   date: {type: String, required: true}, 
-  task_id:{ type: String, required: true}
+  task_id:{ type: String, required: true},
+  pinned: { type: Boolean, default: false },
  
 });
 // By convention, the name of the Model is singular and UpperCamelCased
