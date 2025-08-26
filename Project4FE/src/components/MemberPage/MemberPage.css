@@ -43,6 +43,38 @@
   text-align: right;
 }
 
+/* Sentiment Section */
+.sentiment-section {
+  margin-top: 10px;
+}
+
+.sentiment-section button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sentiment-section button:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
+.sentiment-error {
+  color: red;
+  margin-top: 6px;
+}
+
+.sentiment-chart {
+  margin-top: 20px;
+}
+
+.sentiment-chart h4 {
+  margin-bottom: 10px;
+}
 
 
 

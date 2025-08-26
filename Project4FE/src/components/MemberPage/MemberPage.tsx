@@ -7,6 +7,18 @@ import DeleteModal from '../DeleteModal/DeleteModal';
 import TaskPieChart from "../TaskPieChart/TaskPieChart";
 import AddTaskModal from '../AddTaskModal/AddTaskModal';
 import EditTaskModal from '../EditTaskModal/EditTaskModal'
+import { Bar } from 'react-chartjs-2';
+
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Tooltip,
+    Legend
+} from 'chart.js';
+
+ChartJS.register (CategoryScale,LinearScale, BarElement, Tooltip, Legend);
 
 
 interface Task {
@@ -50,6 +62,13 @@ const MemberPage= () => {
      //state for editing
      const [showEditModal, setShowEditModal] = useState(false);
      const [taskBeingEdited, setTaskBeingEdited] = useState<Task | null>(null);
+
+
+     //state for sentiment
+    const [sentiment, setSentiment] = useState<{Positive:number, Neutral:number, Negative:number} | null>(null);
+    const [loadingSentiment, setLoadingSentiment] = useState(false);
+    const [errorSentiment, setErrorSentiment] = useState<string | null>(null);
+
 
 //////Codes for month handling 
 
@@ -268,6 +287,34 @@ catch(err) {
 
 }
 
+//fetching sentiment
+const fetchMemberSentiment = async () => {
+    if(!memberName) return;
+    setLoadingSentiment(true);
+    setErrorSentiment(null);
+
+    try{
+        const response = await fetch(`http://localhost:3000/sentiment/member/${memberName}`);
+        if(!response.ok) throw new Error("Server error");
+        const data = await response.json();
+        setSentiment(data);
+
+    } catch (err) {
+        setErrorSentiment("Failed to fetch sentiment");
+    }
+    setLoadingSentiment(false);
+
+}
+
+const chartData = sentiment ? {
+    labels: ["Positive", "Neutral", "Negative"],
+    datasets: [{
+        label: `${memberName}'s Sentiment`,
+        data: [sentiment.Positive, sentiment.Neutral, sentiment.Negative],
+        backgroundColor: ["#4caf50", "#ffca28", "#f44336"]
+    }]
+}: null;
+
 
 
 
@@ -337,6 +384,24 @@ catch(err) {
     <div style={{ flex: 1 }}>
     {/* Add Button on top of the pie chart */}
     <button onClick={() => setShowAddModal(true)}>+ Add Task</button>
+
+{/*sentiment chart */}
+<div className="sentiment-section">
+  <button onClick={fetchMemberSentiment} disabled={loadingSentiment}>
+    {loadingSentiment ? "Loading..." : "Get Sentiment"}
+  </button>
+
+  {errorSentiment && <p className="sentiment-error">{errorSentiment}</p>}
+
+  {sentiment && chartData && (
+    <div className="sentiment-chart">
+      <h4>{memberName} Sentiment Analysis</h4>
+      <Bar data={chartData} />
+    </div>
+  )}
+</div>
+
+
    
       <TaskPieChart tasks={filteredTasks} /> 
     </div>

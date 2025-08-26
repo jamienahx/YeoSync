@@ -12,7 +12,12 @@
  display: flex;
   flex-direction: column; /* stack title and chart */
   align-items: center;    /* center horizontally */
-  margin-top: 20px;
+  margin: 20px 0 10px 0;
+}
+
+.sentiment-chart-wrapper {
+  width: 400px;
+  max-height: 300px; /* let the chart shrink if needed */  
 }
 
 .month-navigation {
@@ -20,7 +25,8 @@
   justify-content: center;
   align-items: center;
   gap: 10px; /* spacing between buttons/text */
-  margin: 20px 0;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }
 
 .month-navigation span {

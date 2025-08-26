@@ -43,7 +43,7 @@ const Dashboard = () => {
     setError(null);
 
    try{
-    const response = await fetch('http://localhost:3000/api/sentiment')
+    const response = await fetch('http://localhost:3000/sentiment')
     if(!response.ok){
 
         throw new Error('Server error');
@@ -181,7 +181,9 @@ return (
     {sentiment && (
         <div className="sentiment-chart-container">
           <h3>Sentiment Analysis Results:</h3>
+          <div className="sentiment-chart-wrapper">
           {chartData && <Bar data = {chartData}/>}
+          </div>
         </div>
       )}
 
