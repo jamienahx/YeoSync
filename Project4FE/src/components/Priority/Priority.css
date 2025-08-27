@@ -86,7 +86,7 @@
   z-index: 20;
 }
 .tab.shifted {
-  right: 560px; /* open state: moves with drawer */
+  right: 600px; /* open state: moves with drawer */
 }
 
 

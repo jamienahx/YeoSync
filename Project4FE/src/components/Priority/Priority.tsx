@@ -1,12 +1,13 @@
 import { useState } from "react";
 import "./Priority.css"; // import custom CSS
+import { jsPDF } from "jspdf";
 
 const Priority = () => {
   // slider state
   const [isOpen, setIsOpen] = useState(false);
 
   //state for dropdown and textarea
-  const [ type, setType] = useState("performance"); //the default value of the dropdown menu
+  const [ type, setType] = useState("Concert"); //the default value of the dropdown menu
   const [member, setMember] =useState("all");
   const [noticeText, setNoticeText] = useState("");
 
@@ -25,6 +26,22 @@ const Priority = () => {
     }
     
   };
+
+ const handleClear = () => setNoticeText("");
+
+  //handling PDF generation
+
+  const handleDownloadPDF =()=> {
+      const doc = new jsPDF();
+      const lines = doc.splitTextToSize(noticeText || "No content to export", 180);  //180 is to make sure that each line fits within A4, kind of like wrapping
+      doc.text(lines, 10, 20);  //10 is  the distance from the text from left of the page. Y is the distance of the first line from the top of the page.
+      doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.save("notice.pdf");
+
+  }
+
+
 
   return (
     <div className="priority-container">
@@ -72,12 +89,15 @@ const Priority = () => {
                   Generate Draft
                   </button>
                   <button
-    type="button"
-    className="btn-clear"
-    onClick={() => setNoticeText("")}
-  >
-    Clear
-  </button>
+                      type="button"
+                      className="btn-clear"
+                      onClick={handleClear}>
+                      Clear
+                      </button>
+
+                       <button type="button" className="btn-download" onClick={handleDownloadPDF}>
+                        Download PDF
+                        </button>
               </div>
             
           </label>
