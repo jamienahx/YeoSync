@@ -7,7 +7,7 @@ const noticeSchema = new mongoose.Schema({
     required: true,
     enum: [
       "Concert",     
-      "Leave/Absence",   
+      "Absence",   
       "Release",
       "Ticketing",
       "Event"

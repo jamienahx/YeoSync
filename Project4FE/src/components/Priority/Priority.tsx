@@ -5,6 +5,27 @@ const Priority = () => {
   // slider state
   const [isOpen, setIsOpen] = useState(false);
 
+  //state for dropdown and textarea
+  const [ type, setType] = useState("performance"); //the default value of the dropdown menu
+  const [member, setMember] =useState("all");
+  const [noticeText, setNoticeText] = useState("");
+
+  const handleGenerateDraft=async()=> {
+    try{
+      const response = await fetch (`http://localhost:3000/notice/${type}`);
+      if(!response.ok) throw new Error("Failed to fetch draft");
+      let draftText= await response.json(); //subject to change based on members selected hence use let instead of const
+      const replacement = member === "all" ? "Blackpink Members" : member;
+      draftText = draftText.replace(/{member}/g, replacement);  //replacing ALL instances of {member}
+      setNoticeText(draftText);
+
+    }catch(err) {
+      console.error("Error fetching draftL", err);
+      setNoticeText("Failed to fetch draft. Please try again.");
+    }
+    
+  };
+
   return (
     <div className="priority-container">
       {/* pinned stuff */}
@@ -24,31 +45,48 @@ const Priority = () => {
          {/* Category Dropdown */}
           <label>
             Type:
-            <select>
-              <option value="performance">Performance</option>
-              <option value="leave">Leave / Absence</option>
-              <option value="release">Release</option>
-              <option value="ticketing">Ticketing</option>
-              <option value="event">Event</option>
+          
+              <select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="Concert">Concert</option>
+              <option value="Absence">Absence</option>
+              <option value="Release">Release</option>
+              <option value="Ticketing">Ticketing</option>
+              <option value="Event">Event</option>
             </select>
           </label>
 
           {/* Member Dropdown */}
           <label>
             Member:
-            <select defaultValue="all">
+            <select value={member} onChange={(e) => setMember(e.target.value)}>
               <option value="all">All</option>
               <option value="Jisoo">Jisoo</option>
               <option value="Jennie">Jennie</option>
               <option value="Rose">Rosé</option>
               <option value="Lisa">Lisa</option>
-              
-            </select>
+              </select>
+
+              {/*Generate draft button*/}
+              <div className="actions">
+                <button type = "button" className="btn-generate" onClick={handleGenerateDraft}>
+                  Generate Draft
+                  </button>
+                  <button
+    type="button"
+    className="btn-clear"
+    onClick={() => setNoticeText("")}
+  >
+    Clear
+  </button>
+              </div>
+            
           </label>
           {/* Text input */}
           <label>
-            Notice:
-            <textarea placeholder="Draft notices will be generated here" />
+            <textarea
+             value={noticeText}
+              onChange={(e) => setNoticeText(e.target.value)}
+              placeholder="Draft notices will be generated here"/>
           </label>
         </div>
       </div>

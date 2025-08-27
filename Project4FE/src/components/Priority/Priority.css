@@ -23,8 +23,8 @@
 .slider {
   position: fixed;
   top: 0;
-  right: -540px;  /* match width exactly */
-  width: 560px;
+  right: -560px;  /* match width exactly */
+  width: 600px;
   height: 100%;
   background: white;
   box-shadow: -2px 0 8px rgba(0,0,0,0.2);
@@ -74,7 +74,7 @@
 .tab {
   position: fixed;
   top: 50%;
-  right: 0; /* closed state: sits at viewport edge */
+  right: 40px; /* closed state: sits at viewport edge */
   transform: translateY(-50%);
   background: #facc15;
   border: none;
@@ -87,4 +87,31 @@
 }
 .tab.shifted {
   right: 560px; /* open state: moves with drawer */
+}
+
+
+.actions {
+  display: flex;
+  gap: 10px; /* space between buttons */
+  margin-top: 10px;
+}
+
+.btn-generate {
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+}
+.btn-generate:hover { opacity: 0.9; }
+
+.btn-clear {
+  background-color: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
 }

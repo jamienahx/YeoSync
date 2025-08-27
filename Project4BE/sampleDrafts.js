@@ -15,7 +15,7 @@ Thank you.`,
   },
 
   {
-    type: "Leave/Absence",
+    type: "Absence",
     draft: `Hello, this is YG Entertainment. 
 
 We would like to inform you about {member}'s current status and their activities moving forward.  
