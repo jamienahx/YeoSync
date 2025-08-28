@@ -17,6 +17,7 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
+import Navbar from "../Navbar/Navbar";
 
 ChartJS.register (CategoryScale,LinearScale, BarElement, Tooltip, Legend);
 
@@ -127,6 +128,7 @@ const handlePrevMonth=()=>{
 const filteredTasks = tasks.filter(task=> {
     const taskDate = new Date(task.date);
   return (
+    
     taskDate.getMonth() === currentMonth &&
     taskDate.getFullYear() === currentYear &&
     task.category.toLowerCase().includes(searchTermCategory.toLowerCase()) &&
@@ -320,6 +322,9 @@ const chartData = sentiment ? {
 
 
     return (
+          <div className="member-page-container">
+        <>
+        <Navbar />
 <div style = {{padding: '20px'}}>
 
     <h2> Schedule for {memberName}</h2>
@@ -441,7 +446,8 @@ onConfirm={()=>taskToDelete && handleDeleteTask(taskToDelete)}
 />
 
 </div>
-
+</>
+</div>
 );
 
 };

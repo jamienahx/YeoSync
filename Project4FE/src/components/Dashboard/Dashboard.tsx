@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import  MemberBarChart from '../MemberBarChart/MemberBarChart';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import Navbar from "../Navbar/Navbar";
 
 //register the bar elements before use
 
@@ -171,6 +172,8 @@ const noTasksThisMonth = filteredBoards.every(board =>board.tasks.length ===0)
 
 
 return (
+    <>
+     <Navbar />
 <div className="dashboard-container">
     <div className="dashboard-content">
       <div className="button-container">
@@ -197,11 +200,11 @@ return (
         <span>{monthNames[currentMonth]}{currentYear}</span>
         <button onClick = {handleNextMonth}>Next Month</button>
 </div>
-<div className="priority-button-wrapper">
+{/*<div className="priority-button-wrapper">
     <button onClick={() => navigate('/priority')}>
       View Priority Tasks and Draft Notices
     </button>
-  </div>
+  </div>*/}
     <p className="instruction-text">
     Click on individual member cards to view full details
     </p>
@@ -233,6 +236,7 @@ return (
 
     </div>
     </div>
+    </>
 
 );
 

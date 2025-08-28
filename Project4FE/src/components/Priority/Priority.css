@@ -115,3 +115,13 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.priority-container {
+  min-height: 100vh;
+  position: relative;
+  font-family: sans-serif;
+  padding: 1rem;
+
+  /* NEW: push content below navbar */
+  padding-top: 80px; /* adjust based on navbar height */
+}

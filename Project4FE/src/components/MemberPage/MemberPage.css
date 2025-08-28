@@ -57,7 +57,6 @@
   cursor: pointer;
   font-size: 14px;
 }
-
 .sentiment-section button:disabled {
   background-color: #90caf9;
   cursor: not-allowed;
@@ -83,5 +82,9 @@
   font-size: 18px;
 }
 
+
+.member-page-container {
+  padding-top: 90px; /* Adjust to match Navbar height */
+}
 
 

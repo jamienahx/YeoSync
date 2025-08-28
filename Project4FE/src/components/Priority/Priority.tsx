@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Priority.css"; // import custom CSS
 import { jsPDF } from "jspdf";
+import Navbar from "../Navbar/Navbar";
 
 const Priority = () => {
   // slider state
@@ -44,6 +45,9 @@ const Priority = () => {
 
 
   return (
+     <>
+     <Navbar />
+
     <div className="priority-container">
       {/* pinned stuff */}
       <div className="pinned">
@@ -119,7 +123,11 @@ const Priority = () => {
         {isOpen ? "✖" : "Draft a Notice"}
       </button>
     </div>
+   
+      </>
+    
   );
+  
 };
 
 export default Priority;
