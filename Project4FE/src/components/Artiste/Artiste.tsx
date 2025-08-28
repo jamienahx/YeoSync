@@ -30,6 +30,8 @@ const Artiste =() => {
 
   //state for modal
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+//calendar states
+  const [date, setDate] = useState(new Date());  // track the current calendar date
 
      const memberName = "Jennie";
 
@@ -87,6 +89,8 @@ return (
           endAccessor="end"
           views={["month"]} //set the view to a monthly view
           style={{ height: 600 }}
+           date={date}                         //today's date
+        onNavigate={(newDate) => setDate(newDate)} // update when clicking next/back/today
 
           //add to the calendar so that when the task is clicked the modal will open
           //when clicking onthe event in the calendar, find the matching task and set it to selectedTask.

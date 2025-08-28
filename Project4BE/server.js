@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cors = require('cors');
 require("dotenv").config();
 require('./config/database');
+var securityMiddleware = require('./middlewares/security');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,7 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(securityMiddleware.checkJWT); 
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
