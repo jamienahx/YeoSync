@@ -14,6 +14,7 @@ import TaskBoard from '../TaskBoard/TaskBoard';
 import { useEffect } from 'react';
 import  MemberBarChart from '../MemberBarChart/MemberBarChart';
 import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 //register the bar elements before use
 
@@ -27,6 +28,8 @@ interface Task {
 }
 
 const Dashboard = () => {
+
+    const navigate = useNavigate();
 
      //sentiment analysis state
      //sentiment state will either be some josn like object Postive:10, Neutral: 50, Negative: 5 or null
@@ -194,6 +197,14 @@ return (
         <span>{monthNames[currentMonth]}{currentYear}</span>
         <button onClick = {handleNextMonth}>Next Month</button>
 </div>
+<div className="priority-button-wrapper">
+    <button onClick={() => navigate('/priority')}>
+      View Priority Tasks and Draft Notices
+    </button>
+  </div>
+    <p className="instruction-text">
+    Click on individual member cards to view full details
+    </p>
       {noTasksThisMonth && (
         <p className="no-tasks-text">
             No assignments for the month
@@ -208,6 +219,8 @@ return (
     </div>
 
    <div className="member-bar-chart-container">
+        
+ <div className="member-bar-chart-wrapper">
 {/*props to be passed to the memberbarchart component*/}
       <MemberBarChart
         filteredBoards = {filteredBoards}
@@ -215,6 +228,7 @@ return (
         currentYear = {currentYear}
         monthNames = {monthNames}
         />
+        </div>
     </div>
 
     </div>

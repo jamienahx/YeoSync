@@ -5,6 +5,7 @@ import moment from "moment";  //kinda like today
 import "react-big-calendar/lib/css/react-big-calendar.css"; 
 import "./Artiste.css"; 
 import ArtisteModal from "../ArtisteModal/ArtisteModal";
+import { useNavigate } from "react-router-dom"; 
 
 
 
@@ -34,6 +35,7 @@ const Artiste =() => {
   const [date, setDate] = useState(new Date());  // track the current calendar date
 
      const memberName = "Jennie";
+      const navigate = useNavigate();
 
 const fetchMemberTasks = async ()=> {
   
@@ -78,8 +80,16 @@ return (
 
     <div className="member-calendar-container">
         
+       
+            <div className="calendar-header">
         <h2 className="member-calendar-title">{memberName}'s Calendar</h2>
-            
+        <span
+          className="logout-text"
+          onClick={() => navigate("/")} 
+        >
+          Logout
+        </span>
+      </div>
         {error && <p className="member-calendar-error">{error}</p>}
         <div className="member-calendar-wrapper">
         <Calendar

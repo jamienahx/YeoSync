@@ -49,8 +49,9 @@
 
 .member-bar-chart-container {
  display: flex;
+ flex-direction: column; 
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 7px;
 }
 
 body {
@@ -65,6 +66,45 @@ body {
   padding: 20px;
   box-sizing: border-box;
 }
+
+
+.instruction-text {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;   /* greyish */
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-style: italic;
+  margin-bottom: 7px;
+}
+
+.priority-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.priority-button-wrapper button {
+  padding: 8px 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.priority-button-wrapper button:hover {
+  background-color: #125aa0;
+}
+
+.member-bar-chart-wrapper {
+  width: 600px;      /* adjust as needed */
+  max-height: 400px; /* prevents it from growing too tall */
+  margin: 0 auto;    /* center it horizontally */
+}
+
+
 
 
 
