@@ -3,6 +3,10 @@ const router = express.Router();
 const { spawn } = require('child_process');
 const path = require('path');
 
+//const securityMiddleware = require('../middlewares/security');
+
+//insert before (req,res): "securityMiddleware.checkLogin,""
+
 router.get('/:member', (req, res) => {
   const member = req.params.member;  //the member name gotten from the FE
   const scriptPath = path.join(__dirname, '../sentimentMembers.py');
