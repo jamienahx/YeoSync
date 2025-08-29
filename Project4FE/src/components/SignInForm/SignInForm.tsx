@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {useNavigate} from 'react-router-dom';
 import './SignInForm.css';
+import { signIn} from '../Services/authService';
+import { UserContext } from '../Contexts/UserContext';
 
 const SignInForm=() =>{
 
     const navigate = useNavigate();
-
+    const { setUser } = useContext(UserContext);
     const [formData, setFormData] = useState({
 
         email: '',
         password: '',
     });
-
-
 
 const [error, setError] = useState('');
 
@@ -24,19 +24,27 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const {email , password} = formData;
-
-    if(!email||!password) {
-        setError('Email and Password are required');
+    if(!formData.email||!formData.password) {
+    setError('Email and Password are required');
         return;
     }
 
-    navigate('/dashboard');
+    try {
+        const loggedInUser = await signIn(formData);
+        setUser(loggedInUser);
+    
 
-};
+    if (loggedInUser.is_manager) {
+        navigate('/dashboard');
+      } else {
+        navigate('/artiste');
+      }
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
 
 return (
 

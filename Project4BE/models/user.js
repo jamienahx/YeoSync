@@ -41,7 +41,7 @@ const loginUser=async (user)=>{
     return {status: 0, jwt: token} //indicates success
 }
 
-//added logout user. search the user via email
+//added logout user. search the ser via email
 const  logoutUser = async (email)=> {
     //clears out the stored jwt token and invalidates their session.
         await userDao.updateOne({email}, { $unset: { jwt: "" }});

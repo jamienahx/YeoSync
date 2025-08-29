@@ -1,10 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import"./Navbar.css";
+import { signOut } from "../Services/authService";
+import { UserContext } from "../Contexts/UserContext";
 
 
 const Navbar = () => {
 
     const navigate = useNavigate();
+      const { setUser } = useContext(UserContext);
+
+      const handleLogout = () => {
+        signOut();
+        setUser(null);
+        navigate("/");
+      }
 
     return (
 
@@ -22,7 +32,7 @@ const Navbar = () => {
      
 
        
-            <div onClick={()=> navigate("/")} className="nav-link">
+            <div onClick={handleLogout} className="nav-link">
                 Logout
             </div>
         </div>

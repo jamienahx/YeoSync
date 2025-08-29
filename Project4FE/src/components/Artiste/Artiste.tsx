@@ -5,7 +5,11 @@ import moment from "moment";  //kinda like today
 import "react-big-calendar/lib/css/react-big-calendar.css"; 
 import "./Artiste.css"; 
 import ArtisteModal from "../ArtisteModal/ArtisteModal";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { signOut} from "../Services/authService";
+import { useContext } from "react";
+import { UserContext } from "../Contexts/UserContext";
+
 
 
 
@@ -24,6 +28,7 @@ interface Task {
 
 const localizer = momentLocalizer(moment);
 
+
 const Artiste =() => {
 
     const [tasks, setTasks]= useState<Task[]>([]);
@@ -36,6 +41,10 @@ const Artiste =() => {
 
      const memberName = "Jennie";
       const navigate = useNavigate();
+
+      const { setUser } = useContext(UserContext); 
+      const handleLogout = () => { signOut(); setUser(null); navigate("/"); }
+     
 
 const fetchMemberTasks = async ()=> {
   
@@ -85,7 +94,7 @@ return (
         <h2 className="member-calendar-title">{memberName}'s Calendar</h2>
         <span
           className="logout-text"
-          onClick={() => navigate("/")} 
+          onClick={handleLogout}
         >
           Logout
         </span>

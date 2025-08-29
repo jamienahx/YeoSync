@@ -87,4 +87,17 @@
   padding-top: 90px; /* Adjust to match Navbar height */
 }
 
+.search-section {
+  display: flex;
+  gap: 12px; /* only controls spacing */
+}
+
+.search-bar {
+ padding: 4px 8px;  /* smaller vertical + horizontal padding */
+  font-size: 0.9rem; /* slightly smaller text if needed */
+  border: 1px solid #ccc;
+  border-radius: 6px; /* 👈 prevents it from stretching */
+   margin-top: -10px;
+     margin-bottom: 5px;
+}
 

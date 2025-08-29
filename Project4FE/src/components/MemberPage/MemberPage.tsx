@@ -328,18 +328,7 @@ const chartData = sentiment ? {
 <div style = {{padding: '20px'}}>
 
     <h2> Schedule for {memberName}</h2>
-    <input type="text"
-    placeholder="Search by category"
-    className="search-bar"
-    value={searchTermCategory}
-    onChange={(e)=>setSearchTermCategory(e.target.value)}
-    />
-     <input type="text"
-    placeholder="Search by long description"
-    className="search-bar"
-    value={searchTermDesc}
-    onChange={(e)=>setSearchTermDesc(e.target.value)}
-    />
+ 
 
 {/*Month navigation */}
 <div className="month-navigation">
@@ -349,7 +338,22 @@ const chartData = sentiment ? {
         <button onClick = {handleNextMonth}>Next Month</button>
 </div>
      
-    
+    <div className="search-section">
+    <input
+      type="text"
+      placeholder="Search by category"
+      className="search-bar"
+      value={searchTermCategory}
+      onChange={(e) => setSearchTermCategory(e.target.value)}
+    />
+    <input
+      type="text"
+      placeholder="Search by long desc."
+      className="search-bar"
+      value={searchTermDesc}
+      onChange={(e) => setSearchTermDesc(e.target.value)}
+    />
+  </div>
     {filteredTasks.length===0 ? (
         <p>no tasks found for {memberName}</p>
     ):(
