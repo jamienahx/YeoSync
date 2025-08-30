@@ -22,8 +22,11 @@ interface AddTaskModalProps{
     short_description: string;
     long_description: string;
     date: string;
+     start_time?: string;
+    end_time?: string;
    }) => void;
    memberName: string;
+   
 }
 
 const AddTaskModal = (props: AddTaskModalProps) => {
@@ -32,6 +35,8 @@ const AddTaskModal = (props: AddTaskModalProps) => {
     const[shortDescription, setShortDescription] = useState("");
     const [longDescription, setLongDescription] = useState("");
     const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+const [endTime, setEndTime] = useState("");
 
 
 const handleSubmit = (e: React.FormEvent) => {
@@ -41,12 +46,16 @@ const handleSubmit = (e: React.FormEvent) => {
         short_description: shortDescription,
         long_description: longDescription,
         date: date,
+        start_time: startTime,
+        end_time: endTime
     })
     //reset local state once the form is submitted
     setCategory("");
     setShortDescription("");
     setLongDescription("");
     setDate("");
+    setStartTime("");
+  setEndTime("");
 };
 
 if (!props.show) { 
@@ -100,6 +109,23 @@ return (
                         required
                         />
                 </label>
+                <label>
+  Start Time:
+  <input
+    type="time"
+    value={startTime}
+    onChange={(e) => setStartTime(e.target.value)}
+  />
+</label>
+
+<label>
+  End Time:
+  <input
+    type="time"
+    value={endTime}
+    onChange={(e) => setEndTime(e.target.value)}
+  />
+</label>
                 <div className="modal-buttons">
                     <button type ="submit">Add Task</button>
                     <button type="button" onClick={props.onClose}>Cancel</button>

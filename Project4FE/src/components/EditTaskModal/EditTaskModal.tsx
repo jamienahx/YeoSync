@@ -10,12 +10,16 @@ onConfirm: (updatedTask: {
     short_description: string;
     long_description: string;
     date: string;
+    start_time?: string;
+    end_time?: string;
 }) => void;
     task: {
         category: string;
         short_description: string;
         long_description: string;
         date: string;
+         start_time?: string;
+    end_time?: string;
     } |null;
 }
 
@@ -41,6 +45,8 @@ const EditTaskModal = (props: EditTaskModalProps) => {
     const [shortDescription, setShortDescription] = useState("");
     const [longDescription, setLongDescription] = useState("");
     const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+const [endTime, setEndTime] = useState("");
 
 
 //utilize useeffect to pre-fill inputs. 
@@ -59,6 +65,8 @@ useEffect (()=> {
       ? new Date(props.task.date).toISOString().split("T")[0] //convert the date stored in DB into 'YYYY-MM-DD'
       : "";
     setDate(formattedDate); //this will become the pre-filled date
+      setStartTime(props.task.start_time || "");
+    setEndTime(props.task.end_time || "");
     }
 }, [props.task]);
 
@@ -69,6 +77,8 @@ const handleSubmit = (e: React.FormEvent) => {
         short_description: shortDescription,
         long_description: longDescription,
         date,
+         start_time: startTime,
+    end_time: endTime,
     });
 };
 
@@ -120,6 +130,23 @@ return (
         onChange={(e)=>setDate(e.target.value)}
         required/>
     </label>
+    <label>
+    Start Time:
+    <input
+      type="time"
+      value={startTime}
+      onChange={(e) => setStartTime(e.target.value)}
+    />
+  </label>
+
+  <label>
+    End Time:
+    <input
+      type="time"
+      value={endTime}
+      onChange={(e) => setEndTime(e.target.value)}
+    />
+  </label>
     <div className="modal-buttons">
         <button type="submit">Save Changes</button>
         <button type="button" onClick={props.onClose}>Cancel</button>

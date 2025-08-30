@@ -25,6 +25,8 @@ const taskSchema = new mongoose.Schema({
   date: {type: String, required: true}, 
   task_id:{ type: String, required: true},
   pinned: { type: Boolean, default: false },
+  start_time: { type: String, default: null }, 
+  end_time: { type: String, default: null }   
  
 });
 // By convention, the name of the Model is singular and UpperCamelCased

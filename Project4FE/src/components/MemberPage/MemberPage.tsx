@@ -31,6 +31,8 @@ interface Task {
     _id: string;
     pinned: boolean;
     task_id: string;
+     start_time?: string; 
+    end_time?: string;
      
 }
 
@@ -368,7 +370,15 @@ const chartData = sentiment ? {
 
                     <strong>{task.category}: {task.short_description}<br /></strong>
                     
-                    <small>{task.date}</small>
+                    <small>{task.date}{task.start_time && task.end_time && (
+        <> | {task.start_time} - {task.end_time}</>
+      )}
+      {task.start_time && !task.end_time && (
+        <> | Starts at {task.start_time}</>
+      )}
+      {!task.start_time && task.end_time && (
+        <> | Ends at {task.end_time}</>
+      )}</small>
                     {task.long_description && (
                         <>
                         <br />
