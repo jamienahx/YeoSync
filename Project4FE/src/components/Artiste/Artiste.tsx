@@ -22,6 +22,8 @@ interface Task {
   _id: string;
   pinned: boolean;
   task_id: string;
+   start_time?: string; 
+  end_time?: string;
 }
 
 
@@ -39,7 +41,7 @@ const Artiste =() => {
 //calendar states
   const [date, setDate] = useState(new Date());  // track the current calendar date
 
-     const memberName = "Jennie";
+     const memberName = "Jisoo";
       const navigate = useNavigate();
 
       const { setUser } = useContext(UserContext); 
@@ -65,13 +67,24 @@ useEffect(()=> {
     fetchMemberTasks();
 }, [memberName]);
 
-const events = tasks.map((task)=> ({
+const events = tasks.map((task) => {
+  // combine date + time into a Date object
+  const start = task.start_time
+    ? new Date(`${task.date}T${task.start_time}`)
+    : new Date(task.date);
+
+  const end = task.end_time
+    ? new Date(`${task.date}T${task.end_time}`)
+    : new Date(task.date);
+
+  return {
     id: task._id,
-    title: `${task.category}`,
-    start: new Date(task.date),
-    end: new Date(task.date),
-    allDay: true,
-})) //items to put into react-calendar because the calendar expects events. each task is mapped into an event.
+    title: task.category,
+    start,
+    end,
+    allDay: !task.start_time && !task.end_time, // only all-day if no times
+  };
+}); //items to put into react-calendar because the calendar expects events. each task is mapped into an event.
 
 
 //flow
