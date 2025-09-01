@@ -105,6 +105,28 @@ body {
   margin: 0 auto;    /* center it horizontally */
 }
 
+.sentiment-wordcloud-container {
+  display: flex;
+  justify-content: center;   /* centers both horizontally */
+  align-items: flex-start;   /* align tops */
+  gap: 40px;                 /* spacing between chart and word cloud */
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.sentiment-chart-wrapper,
+.wordcloud-wrapper {
+  flex: 1;                   /* each takes up equal width */
+  max-width: 500px; 
+}
+
+.wordcloud-wrapper img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 
 
 

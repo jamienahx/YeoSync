@@ -14,6 +14,7 @@ var sentimentRouter = require('./routes/sentiment');
 var dashboard = require('./routes/dashboard');
 var sentimentMemberRouter = require('./routes/sentimentMember');
 var noticeRouter = require('./routes/notice')
+var wordcloudRouter = require('./routes/wordcloud')
 
 var app = express();
 
@@ -25,7 +26,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); //whenever a request comes in, check the public folder. if there is a file with that name send it back to the browser. in this case we have wordcloud.png
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(securityMiddleware.checkJWT); 
 
@@ -35,6 +36,7 @@ app.use('/sentiment', sentimentRouter);
 app.use('/dashboard', dashboard);
 app.use('/sentiment/member', sentimentMemberRouter);
 app.use('/notice', noticeRouter);
+app.use('/wordcloud', wordcloudRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

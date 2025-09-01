@@ -16,6 +16,7 @@ import  MemberBarChart from '../MemberBarChart/MemberBarChart';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
+import { fetchWordCloud } from '../Services/dashboardService';
 
 //register the bar elements before use
 
@@ -35,15 +36,18 @@ const Dashboard = () => {
      //sentiment analysis state
      //sentiment state will either be some josn like object Postive:10, Neutral: 50, Negative: 5 or null
     const [sentiment, setSentiment] = useState<{Positive: Number, Neutral: Number, Negative: Number} | null > (null);
-    const [loading, setLoading] = useState(false);
+    const [loadingSentiment, setLoadingsentiment] = useState(false);
+    const [loadingWordcloud, setLoadingWordcloud] = useState(false);
     const [error, setError] = useState<string |null>(null);
-
+   
+    //wordcloud state
+    const [wordcloudUrl, setWordcloudUrl] = useState<string | null>(null);
 
    //fetch sentiment
 
 
    const fetchSentiment = async() => {
-    setLoading(true);
+    setLoadingsentiment(true);
     setError(null);
 
    try{
@@ -59,9 +63,20 @@ const Dashboard = () => {
     setError('Failed to fetch data');
 
    }
-    setLoading(false);
+    setLoadingsentiment(false);
    };
 
+   const fetchWordCloudImage = async () => {
+    setLoadingWordcloud(true);
+    setError(null);
+  try {
+    const url = await fetchWordCloud();
+    setWordcloudUrl(url);
+  } catch (err) {
+    console.error("Failed to fetch wordcloud", err);
+  }
+  setLoadingWordcloud(false);
+};
 
    //prepare the chart data
 
@@ -177,21 +192,36 @@ return (
 <div className="dashboard-container">
     <div className="dashboard-content">
       <div className="button-container">
-    <button onClick={fetchSentiment} disabled={loading} style ={{marginTop: '20px'}}>
-        {loading? 'Loading...':'GetSentiment'}
+    <button onClick={fetchSentiment} disabled={loadingSentiment} style ={{marginTop: '20px'}}>
+        {loadingSentiment? 'Loading...':'GetSentiment'}
       </button>
+      <button onClick={fetchWordCloudImage} disabled={loadingWordcloud} style={{ marginLeft: "10px", marginTop: "20px" }}>
+  {loadingWordcloud? 'Loading...':'GetWordcloud'}
+</button>
+
       </div>
         {error && <p style={{color: 'red'}}>{error}</p>} 
 
 {/*if sentiment is truthym render the div and everything else. otherwise dont render */}
+   {(sentiment || wordcloudUrl) && (
+  <div className="sentiment-wordcloud-container">
+    {/* Sentiment Chart */}
     {sentiment && (
-        <div className="sentiment-chart-container">
-          <h3>Sentiment Analysis Results:</h3>
-          <div className="sentiment-chart-wrapper">
-          {chartData && <Bar data = {chartData}/>}
-          </div>
-        </div>
-      )}
+      <div className="sentiment-chart-wrapper">
+        <h3>Sentiment Analysis Results:</h3>
+        {chartData && <Bar data={chartData} />}
+      </div>
+    )}
+
+    {/* Word Cloud */}
+    {wordcloudUrl && (
+      <div className="wordcloud-wrapper">
+        <h3>Word Cloud:</h3>
+        <img src={wordcloudUrl} alt="Word Cloud" />
+      </div>
+    )}
+  </div>
+)}
 
 {/*Month navigation */}
     <div className="month-navigation">
