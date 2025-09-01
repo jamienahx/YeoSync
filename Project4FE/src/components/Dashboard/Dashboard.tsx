@@ -192,10 +192,10 @@ return (
 <div className="dashboard-container">
     <div className="dashboard-content">
       <div className="button-container">
-    <button onClick={fetchSentiment} disabled={loadingSentiment} style ={{marginTop: '20px'}}>
+    <button onClick={fetchSentiment} disabled={loadingSentiment} className="action-button" style ={{marginTop: '20px'}}>
         {loadingSentiment? 'Loading...':'GetSentiment'}
       </button>
-      <button onClick={fetchWordCloudImage} disabled={loadingWordcloud} style={{ marginLeft: "10px", marginTop: "20px" }}>
+      <button onClick={fetchWordCloudImage} disabled={loadingWordcloud} className="action-button" style={{ marginLeft: "10px", marginTop: "20px" }}>
   {loadingWordcloud? 'Loading...':'GetWordcloud'}
 </button>
 

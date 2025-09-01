@@ -1,4 +1,5 @@
 import {Bar} from 'react-chartjs-2';
+import './memberbarchart.css';
 
 import {
     Chart as ChartJS,
@@ -42,7 +43,7 @@ const MemberBarChart = (props:MemberBarChartProps) => {
             {
                label: "Tasks in "+props.monthNames[props.currentMonth]+" "+props.currentYear,
                data: taskCounts,
-               backgroundColor: '#42a5f5',
+               backgroundColor: '#1976d2',
             },
         ],
     };

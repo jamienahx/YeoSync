@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import './SignInForm.css';
 import { signIn} from '../Services/authService';
 import { UserContext } from '../Contexts/UserContext';
+import logo from '../Images/logo2.png';
+
 
 const SignInForm=() =>{
 
@@ -47,10 +49,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   };
 
 return (
-
+  
+  <div className="signin-page">
+  <img src={logo} alt="App Logo" className="signin-logo" />
+  <div className="signin-wrapper">
     <main className="signin-container">
+      
 
-    <h2>Sign In</h2>
+    <h2>Sign In with SSO Details</h2>
     {error && <p className="signin-error">{error}</p>} 
     <form onSubmit = {handleSubmit} autoComplete = "off" className="signin-form">
         <label htmlFor="email">Email:</label>
@@ -76,6 +82,8 @@ return (
 <button type = "submit">Sign In</button>
     </form>
     </main>
+   </div>
+   </div>
 );
 };
 

@@ -27,6 +27,15 @@
   gap: 10px; /* spacing between buttons/text */
   margin-top: -10px;
   margin-bottom: 20px;
+  font-weight: bold; /* bold */
+  
+  
+}
+.month-navigation button:hover {
+  border-color: #1976d2;      /* blue border on hover */
+}
+.month-navigation button:focus {
+  outline: none;     /* remove default purple outline */
 }
 
 .month-navigation span {
@@ -125,6 +134,21 @@ body {
   height: auto;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.action-button {
+  padding: 8px 16px;
+  background-color: #1976d2;  /* blue */
+  color: white;               /* white text */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #125aa0;  /* darker blue on hover */
 }
 
 

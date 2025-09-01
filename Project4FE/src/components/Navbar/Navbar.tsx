@@ -6,6 +6,8 @@ import { UserContext } from "../Contexts/UserContext";
 import { useState } from "react";
 import {fetchMembers} from "../Services/navbarService";
 import { useEffect } from "react";
+import logo from '../Images/logo3.png';
+
 
 
 const Navbar = () => {
@@ -34,6 +36,12 @@ useEffect(() => {
         <nav className="navbar">
    
       <div className="nav-left">
+        <img 
+    src={logo} 
+    alt="App Logo" 
+    className="nav-logo" 
+    onClick={() => navigate("/dashboard")} 
+  />
         <div onClick={() => navigate("/dashboard")} className="nav-link">
           Home
         </div>
