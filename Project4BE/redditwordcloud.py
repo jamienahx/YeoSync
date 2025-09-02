@@ -22,9 +22,7 @@ def fetch_reddit_comments(subreddit="blackpink", post_limit=20, comment_limit=10
         submission.comments.replace_more(limit=0)
         for comment in submission.comments.list()[:comment_limit]:
             comments_data.append({
-                "comment_body": comment.body,
-                "score": comment.score,
-                "created": comment.created_utc
+                "comment_body": comment.body
             })
     return comments_data
 
@@ -39,7 +37,7 @@ def generate_wordcloud(df, output_path="wordcloud.png"):
     all_text = " ".join(df["clean_text"].tolist())
     
     stopwords = set(STOPWORDS) | {
-        "need","seems","seem","now","feel","blackpink","deleted","removed","edit",
+        "think","need","seems","seem","now","feel","blackpink","deleted","removed","edit",
         "comment","post","upvote","downvote","reddit","thread","sub","mods","look"
     }
     
@@ -66,6 +64,3 @@ if __name__ == "__main__":
 
     df['clean_text'] = df['comment_body'].apply(clean_text)
     image_path = generate_wordcloud(df)
-
-    # Output JSON so backend can consume. The filename "wordcloud.png" is printed. the output is picked up via spawn
-    print(json.dumps({"wordcloud_image": "wordcloud.png"}))

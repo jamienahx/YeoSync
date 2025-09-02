@@ -111,3 +111,50 @@
      margin-bottom: 5px;
 }
 
+/* Word Cloud Section */
+.wordcloud-section {
+  margin-top: 20px;
+}
+
+.wordcloud-section button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.wordcloud-section button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+
+
+.wordcloud-chart {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.wordcloud-chart h4 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.wordcloud-chart img {
+  width: 100%;
+  height: 300px;
+    height: auto; 
+  object-fit: contain;
+   display: block;    
+  margin-top: 0;
+  object-fit: cover; 
+}
+.wordcloud-section h4 {
+  margin: 10px 0;
+  text-align: center;
+}
+
+

@@ -18,6 +18,7 @@ import {
     Legend
 } from 'chart.js';
 import Navbar from "../Navbar/Navbar";
+import { fetchMemberWordCloud } from '../Services/memberpageService';
 
 ChartJS.register (CategoryScale,LinearScale, BarElement, Tooltip, Legend);
 
@@ -74,6 +75,10 @@ const MemberPage= () => {
     const [loadingSentiment, setLoadingSentiment] = useState(false);
     const [errorSentiment, setErrorSentiment] = useState<string | null>(null);
 
+    //state for wordcloud
+    const [wordCloud, setWordCloud] = useState<string |null>(null);
+    const [loadingWordCloud, setLoadingWordCloud] = useState(false)
+
 
 //////Codes for month handling 
 
@@ -124,6 +129,13 @@ const handlePrevMonth=()=>{
           fetchMemberTasks();
         }
     }, [memberName]);
+
+//reset everything to null when a new member's page is accessed.
+    useEffect(() => {
+  setSentiment(null);
+  setWordCloud(null);
+  setErrorSentiment(null);
+}, [memberName]);
 
     //whatever user typed into the 2 search bars
     //now need to add the dates because now the dates affect what is rendered.
@@ -321,6 +333,19 @@ const chartData = sentiment ? {
     }]
 }: null;
 
+//fetching wordcloud
+const handleFetchWordcloud = async () => {
+  if (!memberName) return;
+  setLoadingWordCloud(true);
+  try {
+    const url = await fetchMemberWordCloud(memberName);
+    setWordCloud(url);
+  } catch (err) {
+    console.error("Failed to fetch word cloud", err);
+  }
+  setLoadingWordCloud(false);
+};
+
 
 
     return (
@@ -420,7 +445,23 @@ const chartData = sentiment ? {
   )}
 </div>
 
+{/* Word Cloud Section */}
+<div className="wordcloud-section">
+  <button onClick={handleFetchWordcloud} disabled={loadingWordCloud}>
+    {loadingWordCloud ? "Loading..." : "Get Wordcloud"}
+  </button>
 
+  {wordCloud && (
+    <>
+      <div className="wordcloud-chart">
+     <h4>{memberName} Word Cloud</h4>
+  
+     
+      <img src={wordCloud} alt={`${memberName} Word Cloud`} />
+    </div>
+    </>
+  )}
+</div>
    
       <TaskPieChart tasks={filteredTasks} /> 
     </div>

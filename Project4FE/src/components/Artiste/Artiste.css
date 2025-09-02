@@ -74,3 +74,15 @@
   color: #0056b3;   /* darker blue when clicked */
 }
 
+.calendar-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between logo and title */
+}
+
+.calendar-logo {
+  height: 35px;      /* mini size */
+  width: auto;
+  cursor: pointer;
+}
+

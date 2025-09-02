@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut} from "../Services/authService";
 import { useContext } from "react";
 import { UserContext } from "../Contexts/UserContext";
+import logo from "../Images/logo3.png";
 
 
 
@@ -104,7 +105,15 @@ return (
         
        
             <div className="calendar-header">
+               <div className="calendar-header-left">
+    <img
+      src={logo}
+      alt="App Logo"
+      className="calendar-logo"
+      onClick={() => navigate("/artiste")}
+    />
         <h2 className="member-calendar-title">{memberName}'s Calendar</h2>
+        </div>
         <span
           className="logout-text"
           onClick={handleLogout}

@@ -3,42 +3,46 @@ const router = express.Router();
 const { spawn } = require('child_process');
 const path = require('path');
 
-// GET /wordcloud
+// GET /memberwordcloud?member=Jisoo
 router.get('/', (req, res) => {
-  const scriptPath = path.join(__dirname, '../redditwordcloud.py');
+  const member = req.query.member;
+
+  if (!member) {
+    return res.status(400).json({ error: 'No member specified' });
+  }
+
+  const scriptPath = path.join(__dirname, '../memberwordcloud.py');
 
   const pythonProcess = spawn(
     '/Users/jamie/Project4/Project4BE/venv/bin/python',
-    [scriptPath]
+    [scriptPath, member]
   );
 
   let output = '';
   let errorOutput = '';
 
-  // Collect stdout
   pythonProcess.stdout.on('data', (data) => {
     output += data.toString();
   });
 
-  // Collect stderr
   pythonProcess.stderr.on('data', (data) => {
     errorOutput += data.toString();
   });
 
-  // On process exit
   pythonProcess.on('close', (code) => {
-    try {
-      if (code !== 0) {
+    try{
+    if (code !== 0) {
       console.error(`Python script exited with code ${code}`);
       console.error('Stderr:', errorOutput);
-      return res.status(500).json({ error: 'Failed to run word cloud analysis' });
+      return res.status(500).json({ error: 'Failed to run member word cloud analysis' });
     }
 
-    res.json({ wordcloud_image: '/wordcloud.png' });
-  } catch (err) {
-    console.error('Error handling wordcloud response:', err);
-    res.status(500).json({error: 'Error serving wordcloud'});
-  }
+    const filename = `/${member.toLowerCase()}_wordcloud.png`;
+    res.json({ wordcloud_image: filename });
+} catch(err) {
+      console.error('Error handling member wordcloud response:', err);
+    res.status(500).json({ error: 'Error serving member wordcloud' });
+}
   });
 });
 
