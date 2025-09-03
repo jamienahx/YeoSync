@@ -3,7 +3,7 @@
 .task-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 8px 0 0 0;;
 }
 
 .task-card {
@@ -22,11 +22,19 @@
 .task-card button {
   position: absolute;
   bottom: 10px;              /* anchor to bottom */
+  padding: 4px 8px;
+  border: 1px solid #1976d2;   /* 👈 always show the blue border */
+  border-radius: 6px;
+  background-color: white;     /* optional, keeps it clean */
+  color: #1976d2;              /* matches the border */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
 }
 
-.task-card button:nth-of-type(1) { right: 160px; } /* Edit */
-.task-card button:nth-of-type(2) { right: 85px; }  /* Delete */
-.task-card button:nth-of-type(3) { right: 10px; }  /* Swap */
+.task-card button:nth-of-type(1) { right: 138px; } /* Edit */
+.task-card button:nth-of-type(2) { right: 70px; }  /* Delete */
+.task-card button:nth-of-type(3) { right: 9.5px; }  /* Swap */
 
 .task-card strong {
   font-size: 1.1em;
@@ -43,6 +51,11 @@
   font-style: italic;
 }
 
+.task-card button:hover {
+  background-color: #1976d2;   /* hover: blue background */
+  color: white;                /* hover: white text */
+}
+
 .month-navigation {
   margin-top: 20px;
 }
@@ -50,7 +63,7 @@
 .add-task-container {
 
   margin: 10px 0;
-  text-align: right;
+
 }
 
 /* Sentiment Section */
@@ -157,4 +170,19 @@
   text-align: center;
 }
 
+
+.add-task-container button {
+  border: 1px solid #1976d2;
+  border-radius: 6px;
+  background-color: white;
+  color: #1976d2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.add-task-container button:hover {
+  background-color: #1976d2;
+  color: white;
+}
 

@@ -427,8 +427,9 @@ const handleFetchWordcloud = async () => {
      {/* update to reflect filtered tasks */}
     <div style={{ flex: 1 }}>
     {/* Add Button on top of the pie chart */}
+    <div className="add-task-container">
     <button onClick={() => setShowAddModal(true)}>+ Add Task</button>
-
+    </div>
 {/*sentiment chart */}
 <div className="sentiment-section">
   <button onClick={fetchMemberSentiment} disabled={loadingSentiment}>
