@@ -14,4 +14,18 @@ try {
 
 }
 
-export {fetchWordCloud}
+const fetchSentiment = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/sentiment");
+    if (!response.ok) {
+      throw new Error("Failed to fetch sentiment");
+    }
+    const data = await response.json();
+    return data; // { Positive: X, Neutral: Y, Negative: Z }
+  } catch (err) {
+    console.error("Error fetching sentiment:", err);
+    throw err;
+  }
+};
+
+export {fetchWordCloud, fetchSentiment}

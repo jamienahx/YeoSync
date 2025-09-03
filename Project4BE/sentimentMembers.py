@@ -32,8 +32,7 @@ def fetch_reddit_comments_query(query, post_limit=20, comment_limit=100):
         for comment in submission.comments.list()[:comment_limit]:
             comments_data.append({
                 "comment_body": comment.body,
-                "score": comment.score,
-                "created": comment.created_utc
+
             })
 
     return comments_data

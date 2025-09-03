@@ -16,7 +16,7 @@ import  MemberBarChart from '../MemberBarChart/MemberBarChart';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
-import { fetchWordCloud } from '../Services/dashboardService';
+import { fetchWordCloud, fetchSentiment} from '../Services/dashboardService';
 
 //register the bar elements before use
 
@@ -46,17 +46,13 @@ const Dashboard = () => {
    //fetch sentiment
 
 
-   const fetchSentiment = async() => {
+   const fetchSentimentHandler = async() => {
     setLoadingsentiment(true);
     setError(null);
 
    try{
-    const response = await fetch('http://localhost:3000/sentiment')
-    if(!response.ok){
-
-        throw new Error('Server error');
-    }
-    const data = await response.json();
+    
+    const data = await fetchSentiment();
     setSentiment(data);
    }
     catch(err) {
@@ -65,6 +61,9 @@ const Dashboard = () => {
    }
     setLoadingsentiment(false);
    };
+   
+
+   //fetch wordcloud
 
    const fetchWordCloudImage = async () => {
     setLoadingWordcloud(true);
@@ -85,7 +84,7 @@ const chartData = sentiment
     labels: ['Positive', 'Neutral', 'Negative'], //x axis
     datasets: [ //mandatory - tells typescript what is the data tp be received
     {
-        label: 'Sentiment Scores', //name of the bar chart
+        label: 'Sentiment Frequency', //name of the bar chart
         data: [sentiment.Positive, sentiment.Neutral, sentiment.Negative], //the actual value to be plotted
         backgroundColor: ['#4caf50','#ffca28','#f44336'] //bar colors 
     }
@@ -192,7 +191,7 @@ return (
 <div className="dashboard-container">
     <div className="dashboard-content">
       <div className="button-container">
-    <button onClick={fetchSentiment} disabled={loadingSentiment} className="action-button" style ={{marginTop: '20px'}}>
+    <button onClick={fetchSentimentHandler} disabled={loadingSentiment} className="action-button" style ={{marginTop: '20px'}}>
         {loadingSentiment? 'Loading...':'GetSentiment'}
       </button>
       <button onClick={fetchWordCloudImage} disabled={loadingWordcloud} className="action-button" style={{ marginLeft: "10px", marginTop: "20px" }}>
