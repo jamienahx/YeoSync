@@ -125,3 +125,39 @@
   /* NEW: push content below navbar */
   padding-top: 80px; /* adjust based on navbar height */
 }
+
+.priority-page {
+  padding: 20px;
+}
+
+.pinned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pinned-card {
+  background: #f9f9f9;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pinned-card h4 {
+  margin: 0 0 8px 0;
+  color: #1976d2;
+}
+
+.error {
+  color: red;
+}
+.pin-button{
+   outline: none;   /* removes the focus ring */
+  border: none;    /* removes the default button border */
+  background: none; /* optional: removes the default gray background */
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}

@@ -2,6 +2,21 @@ import { useState } from "react";
 import "./Priority.css"; // import custom CSS
 import { jsPDF } from "jspdf";
 import Navbar from "../Navbar/Navbar";
+import {fetchPinnedTasks, togglePinTask} from "../Services/priorityService";
+import { useEffect } from "react";
+
+interface Task {
+  _id: string;
+  member: string;
+  category: string;
+  short_description: string;
+  long_description?: string;
+  date: string;
+  pinned: boolean;
+  task_id: string;
+  start_time?: string;
+  end_time?: string;
+}
 
 const Priority = () => {
   // slider state
@@ -11,6 +26,11 @@ const Priority = () => {
   const [ type, setType] = useState("Concert"); //the default value of the dropdown menu
   const [member, setMember] =useState("all");
   const [noticeText, setNoticeText] = useState("");
+
+
+  //state for pinned task
+  const [pinnedTasks, setPinnedTasks] = useState<Task[]>([]);
+  const [error, setError] = useState<string |null>(null);
 
   const handleGenerateDraft=async()=> {
     try{
@@ -42,6 +62,31 @@ const Priority = () => {
 
   }
 
+  //fetch pinnedtask
+   const loadPinnedTasks = async() => {
+      try{
+  
+        const data = await fetchPinnedTasks();
+        setPinnedTasks(data);
+      }
+      catch(err){
+          console.error(err);
+          setError("Could not load pinned tasks");
+      }
+  };
+      useEffect(()=> {
+          loadPinnedTasks(); //rmb to put (), without () it is referencing the function not calling it
+      }, []);
+
+//togglepin. reload from BE
+const handleTogglePin = async (id: string) => {
+    try {
+      await togglePinTask(id);
+      await loadPinnedTasks(); // refresh after change
+    } catch (err) {
+      console.error("Failed to toggle pin:", err);
+    }
+  };
 
 
   return (
@@ -50,14 +95,36 @@ const Priority = () => {
 
     <div className="priority-container">
       {/* pinned stuff */}
-      <div className="pinned">
-        <h1>Pinned Items</h1>
-        <div className="grid">
-          <div className="item">item1</div>
-          <div className="item">item2</div>
-          <div className="item">item3</div>
-        </div>
+ <div className="priority-page">
+      <h2>Pinned Tasks</h2>
+
+     
+      {error && <p className="error">{error}</p>}
+
+      <div className="pinned-grid">
+        {pinnedTasks.length === 0 ? (
+          <p>No pinned tasks yet</p>
+        ) : (
+          pinnedTasks.map((task) => (
+            <div key={task._id} className="pinned-card">
+              <button
+    className={`pin-button ${task.pinned ? "pinned" : ""}`}
+    onClick={() => handleTogglePin(task._id)}
+    title={task.pinned ? "Unpin" : "Pin"}
+  >
+    {task.pinned ? "★" : "☆"}
+  </button>
+              <h4>{task.category}: {task.short_description}</h4>
+              <p><strong>Member:</strong> {task.member}</p>
+              <p><strong>Date:</strong> {new Date(task.date).toLocaleDateString()}</p>
+           
+              {task.long_description && <p>{task.long_description}</p>}
+            </div>
+          ))
+        )}
       </div>
+    </div>
+ 
 
       {/* Slider */}
       <div className={`slider ${isOpen ? "open" : ""}`}>

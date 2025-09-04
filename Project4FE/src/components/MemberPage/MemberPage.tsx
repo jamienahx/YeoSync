@@ -18,7 +18,8 @@ import {
     Legend
 } from 'chart.js';
 import Navbar from "../Navbar/Navbar";
-import { fetchMemberWordCloud } from '../Services/memberpageService';
+import { fetchMemberWordCloud, togglePinTask } from '../Services/memberpageService';
+
 
 ChartJS.register (CategoryScale,LinearScale, BarElement, Tooltip, Legend);
 
@@ -347,6 +348,17 @@ const handleFetchWordcloud = async () => {
 };
 
 
+//toggle pin, basically update the ispinned indicator
+//call backend, --> the pinned field in mongodb will be changed
+//task is now updated with true -> false or vice versa and is returned
+const handleTogglePin = async (id: string) => {
+    try {
+      await togglePinTask(id);
+      await fetchMemberTasks(); // refresh after change
+    } catch (err) {
+      console.error("Failed to toggle pin:", err);
+    }
+  };
 
     return (
           <div className="member-page-container">
@@ -392,7 +404,15 @@ const handleFetchWordcloud = async () => {
         
             {filteredTasks.map((task) => (
                 <li key = {task._id} className="task-card">
-
+                   
+                   <button
+    className={`pin-button ${task.pinned ? "pinned" : ""}`}
+    onClick={() => handleTogglePin(task._id)}
+    title={task.pinned ? "Unpin" : "Pin"}
+  >
+    {task.pinned ? "★" : "☆"}
+  </button>
+  
                     <strong>{task.category}: {task.short_description}<br /></strong>
                     
                     <small>{task.date}{task.start_time && task.end_time && (
@@ -410,12 +430,12 @@ const handleFetchWordcloud = async () => {
                         <em>{task.long_description}</em>
                         </>
                     )}
-                    <button onClick={() => handleEditClick(task)}>Edit</button>
+                    <button className="action-button edit" onClick={() => handleEditClick(task)}>Edit</button>
                     {/*when user clicks on this, the modal will be opened. inside openDeletemodal, setTasksToDelete(id) will store the task to delete and setShowDeleteModal = true */}
-                    <button onClick={() => openDeleteModal(task._id)}>Delete</button> 
+                    <button className="action-button delete" onClick={() => openDeleteModal(task._id)}>Delete</button> 
                     {/*when user clicks on this, the modal will be opened. The selected task is saved to the state  and will be swapped */}
                      {/*now inside the state variable, taskToSwap is now having this task*/}
-                <button onClick={() => handleOpenModal(task)}>Swap</button> 
+                <button className="action-button swap" onClick={() => handleOpenModal(task)}>Swap</button> 
                 </li>
 
             ))}

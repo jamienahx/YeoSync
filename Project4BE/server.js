@@ -13,9 +13,10 @@ var usersRouter = require('./routes/users');
 var sentimentRouter = require('./routes/sentiment');
 var dashboard = require('./routes/dashboard');
 var sentimentMemberRouter = require('./routes/sentimentMember');
-var noticeRouter = require('./routes/notice')
-var wordcloudRouter = require('./routes/wordcloud')
-var memberwordcloudRouter = require('./routes/memberwordcloud')
+var noticeRouter = require('./routes/notice');
+var wordcloudRouter = require('./routes/wordcloud');
+var memberwordcloudRouter = require('./routes/memberwordcloud');
+var pinnedTaskRouter = require('./routes/pinnedtask');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/sentiment/member', sentimentMemberRouter);
 app.use('/notice', noticeRouter);
 app.use('/wordcloud', wordcloudRouter);
 app.use('/memberwordcloud', memberwordcloudRouter);
+app.use('/pinnedTasks', pinnedTaskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
