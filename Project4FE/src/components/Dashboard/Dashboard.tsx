@@ -244,8 +244,8 @@ return (
       )}
       {/* within filtere boards, filter further into users*/}
     <div className="task-board-container">
-        {filteredBoards.map((board, index)=>(
-        <TaskBoard key = {index} member={board.member} tasks = {board.tasks}/> //passed member and tasks into the taskboard component
+        {filteredBoards.map((board)=>(
+        <TaskBoard key = {board.member} member={board.member} tasks = {board.tasks}/> //passed member and tasks into the taskboard component
       ))}
 
     </div>

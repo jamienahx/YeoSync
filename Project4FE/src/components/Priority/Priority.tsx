@@ -131,6 +131,7 @@ const handleTogglePin = async (id: string) => {
         <div className="slider-content">
           <h2>Draft a Notice</h2>
          {/* Category Dropdown */}
+         <div className="form-body">
           <label>
             Type:
           
@@ -142,7 +143,7 @@ const handleTogglePin = async (id: string) => {
               <option value="Event">Event</option>
             </select>
           </label>
-
+          </div>
           {/* Member Dropdown */}
           <label>
             Member:

@@ -5,12 +5,7 @@
   padding: 1rem;
 }
 
-/* pinned items layout */
-.pinned .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
+
 .pinned .item {
   background: white;
   border: 1px solid #ccc;
@@ -38,10 +33,19 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* spacing between fields */
+  gap: 1rem;
   font-size: 1rem;
+  position: relative; 
+  
 }
 
+.slider-content h2 {
+  margin-top: 50px; /* now only the heading moves */
+}
+
+.form-body {
+  margin-top: -30px; /* only this block moves up */
+}
 /* labels */
 .slider-content label {
   display: flex;
@@ -62,10 +66,10 @@
 
 /* textarea for notice */
 .slider-content textarea {
-  margin-top: 0.5rem;
+  margin-top: -8px;
   padding: 0.8rem;
   font-size: 1rem;
-  min-height: 350px;
+  min-height: 330px;
   resize: vertical;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -132,17 +136,19 @@
 
 .pinned-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 280px); /* 3 equal-width columns */
   gap: 16px;
   margin-top: 20px;
+  justify-items: start; 
 }
 
 .pinned-card {
   background: #f9f9f9;
   border: 2px solid #1976d2;
   border-radius: 8px;
-  padding: 12px;
+  padding: 50px 12px 12px;;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .pinned-card h4 {
@@ -160,4 +166,8 @@
   cursor: pointer;
   font-size: 20px;
   line-height: 1;
+   position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #1976d2;
 }
