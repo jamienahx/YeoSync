@@ -17,15 +17,15 @@ return (
     <Route path = "/" element={<SignInForm/>} />
 
     
-     {/* <Route path = "/dashboard" element = {<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+     <Route path = "/dashboard" element = {<ProtectedRoute><Dashboard /></ProtectedRoute>} />
     <Route path ="/members/:memberName" element={<ProtectedRoute><MemberPage /></ProtectedRoute>}/>
   <Route path ="/Priority" element={<ProtectedRoute><Priority /></ProtectedRoute>}/>
-  <Route path ="/Artiste" element={<ProtectedRoute><Artiste /></ProtectedRoute>}/>  */}
+  <Route path ="/Artiste" element={<ProtectedRoute><Artiste /></ProtectedRoute>}/> 
 
-   <Route path = "/dashboard" element = {<Dashboard />} />
+   {/* <Route path = "/dashboard" element = {<Dashboard />} />
     <Route path ="/members/:memberName" element={<MemberPage />} />
   <Route path ="/Priority" element={<Priority />} />
-  <Route path ="/Artiste" element={<Artiste />}/>
+  <Route path ="/Artiste" element={<Artiste />}/> */}
 
   </Routes>
 

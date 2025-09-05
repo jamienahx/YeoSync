@@ -37,7 +37,7 @@ def generate_wordcloud(df, output_path="wordcloud.png"):
     all_text = " ".join(df["clean_text"].tolist())
     
     stopwords = set(STOPWORDS) | {
-        "think","need","seems","seem","now","feel","blackpink","deleted","removed","edit",
+       "huo", "think","need","seems","seem","now","feel","blackpink","deleted","removed","edit",
         "comment","post","upvote","downvote","reddit","thread","sub","mods","look"
     }
     
