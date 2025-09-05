@@ -136,9 +136,16 @@ const handlePrevMonth = () => {
 const [tasks, setTasks] = useState<Task[]>([]);
 
 const fetchTasks = async() => {
+  const token = localStorage.getItem("token"); 
     try{
 
-        const response = await fetch('http://localhost:3000/dashboard/');
+        const response = await fetch('http://localhost:3000/dashboard/',{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? `Bearer ${token}` : "",  // send token here
+      },
+    });
         if (!response.ok) {
             throw new Error('Failed to fetch tasks');
         }

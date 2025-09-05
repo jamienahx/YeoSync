@@ -1,6 +1,13 @@
 const fetchPinnedTasks = async() => {
+    const token = localStorage.getItem("token");
     try {
-        const response = await fetch("http://localhost:3000/pinnedtasks/all");
+        const response = await fetch("http://localhost:3000/pinnedtasks/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? `Bearer ${token}` : "",  // use token
+      },
+    });
         if(!response.ok) {
             throw new Error("Failed to fetch pinned tasks");
         }

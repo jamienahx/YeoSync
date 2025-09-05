@@ -112,9 +112,16 @@ const handlePrevMonth=()=>{
         const otherMembers = allMembers.filter(m => m !== memberName);
 
     const fetchMemberTasks = async() => {
+      const token = localStorage.getItem("token"); 
     try{
 
-        const response = await fetch(`http://localhost:3000/dashboard/${memberName}`);
+        const response = await fetch(`http://localhost:3000/dashboard/${memberName}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? `Bearer ${token}` : "",  // use token
+      },
+    });
         if (!response.ok) {
             throw new Error(`Failed to fetch tasks for ${memberName}`);
         }
@@ -155,8 +162,15 @@ const filteredTasks = tasks.filter(task=> {
 //get all members. need this in order to do filtering for the swap function
 //already edited BE to be select distinct members from task
 const fetchAllMembers = async () => {
+  const token = localStorage.getItem("token");  
   try {
-    const response = await fetch('http://localhost:3000/dashboard/members');
+    const response = await fetch('http://localhost:3000/dashboard/members', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? `Bearer ${token}` : "",  // use token
+      },
+    });
     if (!response.ok) {
       throw new Error('Failed to fetch all tasks');
     }
