@@ -50,10 +50,17 @@ const Artiste =() => {
      
 
 const fetchMemberTasks = async ()=> {
+   const token = localStorage.getItem("token");
   
     try {
 
-        const response = await fetch(`http://localhost:3000/dashboard/${memberName}`);
+        const response = await fetch(`http://localhost:3000/dashboard/${memberName}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token ? `Bearer ${token}` : "",  // use token
+      },
+    });
         if(!response.ok) throw new Error ("Failed to fetch tasks");
         const data = await response.json();
         setTasks(data);   
